@@ -10,16 +10,23 @@ readme = "README.md"
 requires-python = ">=3.11"
 # 骨組み（credits / report）は標準ライブラリだけで動かす。
 # 会話を実装するときに extras を入れる。
-dependencies = []
+dependencies = [
+    "elevenlabs>=2.67.0",
+]
 
 [project.optional-dependencies]
 # A: Agents Platform と B: Scribe の両方で使う。
 # Windows で pyaudio の導入に失敗したら sounddevice に切り替える
 # （SDK の DefaultAudioInterface を使わず、自前の AudioInterface を書く）。
 conversation = ["elevenlabs[pyaudio]>=2.0"]
+# テスト。ネットワークも音声機器も使わない範囲だけを見る。
+dev = ["pytest>=8.0"]
 
 [project.scripts]
 voicelab = "voicelab.cli:main"
 
 [tool.setuptools]
 packages = ["voicelab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,35 @@
+{
+  "corpus": "corpus/（架空のノート 3 本）",
+  "questions": [
+    {
+      "id": "deploy-check",
+      "text": "デプロイの前に確認することを教えて",
+      "expected_note": "デプロイ手順",
+      "why": "手順の箇条書きを、声で聞ける長さに要約できるか"
+    },
+    {
+      "id": "rollback",
+      "text": "ロールバックはどうやるの",
+      "expected_note": "デプロイ手順",
+      "why": "同じノートの別の見出しを引けるか"
+    },
+    {
+      "id": "glossary-rrf",
+      "text": "RRF って何のこと",
+      "expected_note": "用語集",
+      "why": "英字の略語を音声認識が拾えるか"
+    },
+    {
+      "id": "meeting-decisions",
+      "text": "5月12日の定例で決まったことは",
+      "expected_note": "2026-05-12 定例メモ",
+      "why": "日付をノート名に結びつけられるか"
+    },
+    {
+      "id": "not-in-notes",
+      "text": "来週の天気はどう",
+      "expected_note": null,
+      "why": "ノートに無いことを『無い』と言えるか（作り話をしないか）"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voicelab"
+version = "0.1.0"
+description = "ElevenLabs Agents Platform と自前構成を、遅延・費用・実装量で比べる実験場"
+readme = "README.md"
+requires-python = ">=3.11"
+# 骨組み（credits / report）は標準ライブラリだけで動かす。
+# 会話を実装するときに extras を入れる。
+dependencies = []
+
+[project.optional-dependencies]
+# A: Agents Platform と B: Scribe の両方で使う。
+# Windows で pyaudio の導入に失敗したら sounddevice に切り替える
+# （SDK の DefaultAudioInterface を使わず、自前の AudioInterface を書く）。
+conversation = ["elevenlabs[pyaudio]>=2.0"]
+
+[project.scripts]
+voicelab = "voicelab.cli:main"
+
+[tool.setuptools]
+packages = ["voicelab"]

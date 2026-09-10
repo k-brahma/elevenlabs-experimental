@@ -1,0 +1,9 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+results/*.csv
+results/*.md
+*.wav
+*.mp3
+*.egg-info/

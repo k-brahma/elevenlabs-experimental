@@ -37,10 +37,13 @@ ENV_KEYS = (
     'ELEVENLABS_VOICE_ID',
     'ELEVENLABS_MODEL_ID',
     'VOICELAB_LLM',
+    # B（自前構成）が LLM を自分で呼ぶのに要る。A は ElevenLabs 側で同じモデルを
+    # 動かすので鍵は要らない。ここが A と B の費用の出方の違いでもある。
+    'GEMINI_API_KEY',
 )
 
 #: Agent の応答生成に使う LLM の既定。`.env` の `VOICELAB_LLM` で変えられる。
-DEFAULT_LLM = 'gemini-2.5-flash'
+DEFAULT_LLM = 'gemini-3.6-flash'
 
 
 class ConfigError(RuntimeError):

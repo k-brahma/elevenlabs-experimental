@@ -9,13 +9,19 @@ description = "ElevenLabs Agents Platform と自前構成を、遅延・費用�
 readme = "README.md"
 requires-python = ">=3.11"
 # 骨組み（credits / report）は標準ライブラリだけで動かす。
-# 会話を実装するときに extras を入れる。
+# 音を鳴らすための pyaudio だけを extras に追い出している。
 dependencies = [
+    # A: Agents Platform の SDK。B の TTS では使わない（理由は README「B の設計」）
     "elevenlabs>=2.67.0",
+    # B: 応答生成。A は同じモデルを ElevenLabs 側で動かすので、これは B のためだけ
+    "google-genai>=2.22.0",
+    # B: TTS の stream-input に直接つなぐ。elevenlabs の依存でもあるが、
+    # こちらが直接 import するので明示しておく
+    "websockets>=13.0",
 ]
 
 [project.optional-dependencies]
-# A: Agents Platform と B: Scribe の両方で使う。
+# スピーカーで鳴らしたいときだけ。計測そのものには要らない。
 # Windows で pyaudio の導入に失敗したら sounddevice に切り替える
 # （SDK の DefaultAudioInterface を使わず、自前の AudioInterface を書く）。
 conversation = ["elevenlabs[pyaudio]>=2.0"]

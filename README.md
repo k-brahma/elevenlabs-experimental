@@ -4,14 +4,14 @@
 数字で言えるようにするのが目的。
 
 - **A: Agents Platform** … ElevenLabs の Agent（音声認識・応答生成・発話・割り込みを丸ごと任せる）
-- **B: 自前構成** … Scribe（音声認識）+ 自前の検索 + ストリーミング TTS を自分でつなぐ
+- **B: 自前構成** … 自前の検索 + Gemini + ストリーミング TTS を自分でつなぐ
 
 比べるのは 3 つ。
 
 | 観点 | 測り方 |
 |---|---|
 | 遅延 | 質問を投げてから最初の音が出るまで（ms）。自前で計る（[計測の定義](#計測の定義)） |
-| 費用 | 1 往復あたりのクレジット。実行前後の残クレジットの差と、会話ごとの `cost` |
+| 費用 | 1 往復あたりのクレジット。A は会話ごとの `cost`（分単位）、B は TTS の文字数（[B の設計](#b-の設計)）。どちらも実行前後の残高の差と突き合わせる |
 | 実装量 | 行数と、自分で面倒を見る必要があるものの数（割り込み、無音判定、再接続…） |
 
 ## なぜ web app ではないのか
@@ -21,7 +21,7 @@
 
 ## 状態
 
-**A は 5 問流して数字が出た（2026-09-11）。B はこれから。**
+**A は 5 問流して数字が出た（2026-09-11）。B は実装が済んで実行待ち。**
 
 - [x] 題材データ（`corpus/`）と質問集（`scenarios/questions.json`）
 - [x] クレジット残高の記録（`voicelab/credits.py`）
@@ -29,18 +29,22 @@
 - [x] ノートの検索（`voicelab/search.py`）と Agent 用の client tool
 - [x] Agent とツールの作成・更新（`voicelab/agent_setup.py`）
 - [x] A: Agents Platform で 1 往復する（`voicelab/agents_path.py`）… 5 問 + 再測 1 回、計 6 往復
-- [ ] B: Scribe + 検索 + ストリーミング TTS で 1 往復する
-- [ ] 5 問 × 2 構成を流して表にする（A の分は `results/report.md`）
+- [x] B: 検索 + Gemini + ストリーミング TTS で 1 往復する（`voicelab/custom_path.py`）… **実行待ち**
+- [x] 5 問 × 2 構成を流して表にする（下の「A と B を並べる」）
 
 ## 使い方
 
 ```bash
 uv venv
-uv sync                       # 会話まで含めて動く（SDK が入る）
+uv sync                       # A と B が動く（elevenlabs / google-genai / websockets）
 uv sync --extra dev           # テストを走らせるとき
 uv sync --extra conversation  # スピーカーで鳴らしたいとき（pyaudio）
-copy .env.example .env        # ELEVENLABS_API_KEY を書く
+copy .env.example .env        # ELEVENLABS_API_KEY を書く。B を回すなら GEMINI_API_KEY も
 ```
+
+`GEMINI_API_KEY` は **B だけが要る**（https://aistudio.google.com/apikey）。
+A は同じ `gemini-3.6-flash` を ElevenLabs 側が動かすので鍵は要らない。
+未設定なら `run custom` は接続する前に「GEMINI_API_KEY が未設定です」で止まる。
 
 ```bash
 # 今の残クレジットを見る（API を叩くが課金はされない）
@@ -61,13 +65,21 @@ uv run voicelab run agents --scenario deploy-check   # 1 問だけ
 uv run voicelab run agents                           # 全 5 問
 uv run voicelab run agents --no-audio                # WAV を残さない
 
+# B。検索結果と、LLM に渡す system prompt の先頭を見る（課金されない）
+uv run voicelab run custom --dry-run
+uv run voicelab run custom --dry-run --scenario deploy-check
+
+# B の本番。ElevenLabs のクレジットと Gemini のトークンを消費する
+uv run voicelab run custom --scenario deploy-check    # 1 問だけ
+uv run voicelab run custom                            # 全 5 問
+
 # 記録済みの結果から表を作る
 uv run voicelab report
 ```
 
 `setup-agent` は、ツール `search_notes` と Agent `voicelab-a` を**名前で探して、無ければ作り、
 あれば上書きする**。作った Agent の id は `.env` の `ELEVENLABS_AGENT_ID` に書き戻す。
-Agent の指示は `prompts/agent_system.txt`、LLM は `.env` の `VOICELAB_LLM`（既定 `gemini-2.5-flash`）。
+Agent の指示は `prompts/agent_system.txt`、LLM は `.env` の `VOICELAB_LLM`（既定 `gemini-3.6-flash`）。
 
 `run agents` は実行前に残高を読み、**1,500 クレジットを切っていたら止まる**（`--force` で続行）。
 1 問ごとに新しい会話を開く。前の質問の文脈が残ると、ツールを呼ばずに前の答えを流用してしまい、
@@ -107,6 +119,70 @@ Agent の指示は `prompts/agent_system.txt`、LLM は `.env` の `VOICELAB_LLM
 HTTP でこちらへ届く経路が無いので、公開 URL も cloudflared のようなトンネルも要らない。
 （サーバ側で実行する webhook tool を使う構成なら、ローカル検証にはトンネルが要る。）
 
+## B の設計
+
+> LLM は当初 `gemini-2.5-flash` だったが、2026-09-11 に Gemini API が「新規ユーザーには提供終了」（404）を返したため、A・B とも `gemini-3.6-flash` に揃えた。A の最初の結果（上の表）は 2.5-flash のもので、3.6-flash で取り直した表は下にある。
+
+
+`voicelab/custom_path.py`。直列のパイプラインで、A と同じ `Run` を返し、WAV と書き起こしも
+同じ場所に置く（`results/audio/<id>_custom_<UTC>.wav`、`results/transcripts/<id>_custom_<UTC>.txt`）。
+
+```
+質問テキスト → 検索（上位 3 件） → Gemini をストリーミング → 文が確定するたびに TTS へ → 音
+```
+
+### A との違い
+
+| | A: Agents Platform | B: 自前構成 |
+|---|---|---|
+| 検索の呼び方 | **LLM がツールを選ぶ**（client tool） | **選ばせない。先に検索して結果を渡す** |
+| ノートに無い質問 | LLM がツールを呼ばずに「見当たりません」 | それでも検索する。0 件を渡して LLM に言わせる |
+| LLM | `gemini-3.6-flash`（ElevenLabs 側が動かす） | 同じ `gemini-3.6-flash`（**自分で呼ぶ**） |
+| 費用の出方 | 会話の `metadata.cost` に全部込み（分単位） | ElevenLabs は TTS の**文字数**、Gemini は**トークン**。別勘定 |
+| 面倒を見るもの | ほぼ無し | 文の切り出し・WebSocket・受信スレッド・時刻の記録 |
+
+ツール往復（LLM がツールを選ぶ → 検索 → LLM が答えを作る）が 1 回消えるぶん、B の方が
+速いはず、という仮説を確かめるための構成。A の実測ではその往復が 1.5〜2 秒だった。
+
+### 文単位のストリーミングである
+
+**LLM の生成完了は待たない。** トークンを溜めて「。」「！」「？」で切り、文が 1 つ確定した
+時点で TTS へ送る。半角の `.` では切らない（`v2.5` のような版番号で途中まで送ってしまうため）。
+
+TTS は `wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input` に
+`websockets` で**直接**つなぐ。SDK の `client.text_to_speech.convert_realtime` を使わなかったのは、
+
+- 中の `text_chunker` の区切り文字が `. , ? ! ; : - ( ) [ ] }` と半角空白だけで、**日本語の「。」を知らない**
+- その `text_chunker` は「次の断片が来て初めて 1 つ前を送る」作りで、**最初の文が 1 文ぶん遅れる**
+- 戻り値が generator なので、音声の到着時刻が「こちらが `next()` を呼んだ時刻」になってしまう
+
+の 3 点。受信は別スレッドで回して、**チャンクが届いた瞬間に時刻を打つ**（A の `MeasuringAudioInterface`
+と同じ）。各文は `{"text": "文 ", "flush": true}` で送る。`flush` が無いと `chunk_length_schedule`
+（既定 50 文字）ぶん溜まるまで生成が始まらず、短い返答では最初の音が遅れる。
+出力は `pcm_16000`。A の録音と同じ 16kHz / 16bit / mono。
+
+Gemini は `thinking_budget=0`（思考なし）で呼ぶ。2〜3 文の読み上げに推論は要らず、
+`max_output_tokens` が 300 しかないので、思考でこの枠を使い切って**本文が空のまま終わる**のを避ける。
+
+### 計測
+
+`first_audio_ms` と `reply_done_ms` の定義は A と同じ（[計測の定義](#計測の定義)）。`t0` は
+質問テキストを渡した時刻で、**TTS の WebSocket 接続と Gemini の client 作成は `t0` より前**に済ませる
+（A も接続後に質問を送っているため）。CSV に入らない内訳は書き起こしに書く。
+
+- 検索 ms / LLM 最初のトークン ms / LLM 完了 ms / TTS へ最初の文 ms
+- TTS に送った文の数と文字数
+- Gemini の `usage_metadata`（入力・出力・思考・合計トークン）
+
+### 費用
+
+`credits` 列には **TTS に送った文字数 × 0.5** を入れる（flash / turbo 系を API から使ったときの
+1 文字あたりのクレジット。根拠と出典は `voicelab/custom_path.py` の `CREDITS_PER_CHARACTER`）。
+これは**見積り**で、正は実行前後の残高の差。ただし残高の反映は遅れる。
+
+**Gemini の費用は ElevenLabs のクレジットではないので `credits` に混ぜない。** トークン数として
+書き起こしに残す。A ではこの分が会話の `cost` に溶けていて分けられない ―― そこも B との違い。
+
 ## 最初の結果（A、2026-09-11）
 
 `results/report.md` と `results/runs.csv` に全行がある。音声は `results/audio/`（git には入れない）。
@@ -125,7 +201,35 @@ HTTP でこちらへ届く経路が無いので、公開 URL も cloudflared の
 - 会話メタデータの `cost` 合計は 401 だったが、直後に読んだ残高の差は 216。**残高の反映は遅れる**ので、費用は会話ごとの `cost` を正とする
 - 返答は全問ノートを根拠にしていて、出典のノート名を口頭で添えている（`results/transcripts/`）。声を聞いての正誤判定（`correct` 列）は未記入
 
+## A と B を並べる（どちらも gemini-3.6-flash、2026-09-11）
+
+同じ 5 問を、同じ検索関数・同じ声・同じ TTS モデル・同じ LLM で流した。全行は `results/runs.csv`。
+
+| 質問 | A 最初の音 | B 最初の音 | B の内訳: LLM 初トークン | A クレジット | B クレジット（TTS 見積り） |
+|---|---:|---:|---:|---:|---:|
+| デプロイ前の確認 | 2,479 ms | 3,460 ms | 3,133 ms | 100 | 55 |
+| ロールバック | 2,653 ms | 6,224 ms | 5,925 ms | 100 | 50 |
+| RRF とは | 2,633 ms | 4,229 ms | 3,869 ms | 98 | 50 |
+| 5/12 の定例 | 1,871 ms | 2,845 ms | 2,397 ms | 88 | 50 |
+| 来週の天気（無い） | 2,049 ms | 1,674 ms | 1,481 ms | 85 | 16 |
+
+読み方:
+
+- **A の方が速く、ばらつきも小さい**（1.9〜2.7 秒）。B は 1.7〜6.2 秒で、ほぼ全部が **Gemini の最初のトークンまでの時間**。検索は 1〜2 ms、TTS は最初の文を送ってから 200〜300 ms で音が来る。つまり B の遅さは自前の作りではなく、公開 API 経由の Gemini（`thinking_level='low'` でも思考に 300 トークン前後使う）の応答速度
+- A は ElevenLabs の中で同じモデルを呼んでいるはずだが、ツール往復（LLM → ツール → LLM）込みで B の単発呼び出しより速い。中で何をしているか（思考の抑え方、プロビジョニング、地理）はこちらからは見えない。**「同じモデル名でも、誰がどう呼ぶかで 1〜3 秒変わる」**が、この比較で一番大きい発見
+- 費用の出方が違う。A は会話ごとに **85〜100 クレジット**（LLM 込み・通話時間ベース）。B は **TTS の文字数ぶん 16〜55 クレジット**＋Gemini のトークン（入力 450 前後 / 出力 60 前後 / 思考 300 前後。ElevenLabs のクレジットではない）。合算すると B の方が安いが、二社に請求が分かれる
+- 2.5-flash のときの A（上の表）は 2.7〜3.3 秒だったので、**A は 3.6-flash で 0.5〜1 秒速くなった**。ノートに無い質問は 2.5 ではツールを呼ばず 1.3 秒、3.6 では律儀にツールを呼んで 2.0 秒
+- `results/report.md` の A の中央値は 2.5-flash と 3.6-flash の両方の行を含む（`runs.csv` に LLM の列が無いため）。分けて見るときは日時で切る
+
+どちらを選ぶか（この題材での結論。一般化はしない）:
+
+- **速さと手離れ**なら A。割り込み・無音判定・再接続を自分で書かなくてよく、それでいて速い
+- **費用の内訳の見える化と、LLM や検索の差し替え自由度**なら B。ただし LLM の応答速度がそのまま体感に出るので、モデルと呼び方（思考の抑制、リージョン）を自分で詰める覚悟が要る
+
 ## 費用の注意
+
+ここは **A（会話）の話**。B は会話ではなく TTS なので、消費は喋った文字数ぶん（1 往復 50 クレジット前後）で、
+放置しても増えない。とはいえ残高の見張り（`MIN_CREDITS`）は A と共通の門をくぐらせている。
 
 **会話は分単位でクレジットを消費する。** 2026-09-10 の実測で約 730 クレジット/分だった。
 無料プランの 10,000 クレジット/月は実質 13 分、Starter の 30,000 でも 40 分ほどしかない。

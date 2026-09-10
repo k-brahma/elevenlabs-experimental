@@ -238,13 +238,23 @@ def fetch_conversation_cost(
             time.sleep(2)
 
 
-def save_audio_file(pcm: bytes, scenario_id: str, stamp: str, directory: Path = AUDIO_DIR) -> Path:
+def save_audio_file(
+    pcm: bytes,
+    scenario_id: str,
+    stamp: str,
+    directory: Path = AUDIO_DIR,
+    *,
+    label: str = PATH_AGENTS,
+) -> Path:
     """届いた PCM を WAV にする（16kHz / 16bit / mono）。
 
     正誤は**人が聞いて**判定する決まりなので、音は捨てずに残す。
+
+    ``label`` は名前に入れる構成名（``agents`` / ``custom``）。**B も同じ関数を使う**。
+    形式や置き場所が構成ごとに違うと、並べて聞いたときに比べられなくなるため。
     """
     directory.mkdir(parents=True, exist_ok=True)
-    path = directory / f'{scenario_id}_agents_{stamp}.wav'
+    path = directory / f'{scenario_id}_{label}_{stamp}.wav'
     with wave.open(str(path), 'wb') as handle:
         handle.setnchannels(CHANNELS)
         handle.setsampwidth(SAMPLE_WIDTH)
@@ -295,9 +305,17 @@ def render_transcript(
     return '\n'.join(lines) + '\n'
 
 
-def save_transcript(text: str, scenario_id: str, stamp: str, directory: Path = TRANSCRIPTS_DIR) -> Path:
+def save_transcript(
+    text: str,
+    scenario_id: str,
+    stamp: str,
+    directory: Path = TRANSCRIPTS_DIR,
+    *,
+    label: str = PATH_AGENTS,
+) -> Path:
+    """書き起こしを置く。``label`` の意味は :func:`save_audio_file` と同じ。"""
     directory.mkdir(parents=True, exist_ok=True)
-    path = directory / f'{scenario_id}_agents_{stamp}.txt'
+    path = directory / f'{scenario_id}_{label}_{stamp}.txt'
     path.write_text(text, encoding='utf-8')
     return path
 

@@ -143,7 +143,15 @@ def _agent_body(*, prompt: str, llm: str, voice_id: str, model_id: str, tool_id:
                     'tool_ids': [tool_id],
                 },
             },
-            'tts': {'voice_id': voice_id, 'model_id': model_id},
+            'tts': {
+                'voice_id': voice_id,
+                'model_id': model_id,
+                # 数字の読み上げ変換。既定の system_prompt は LLM に「数字を語で書け」と
+                # 指示するので日本語では漢数字（五月十二日）になり、TTS の読みが崩れた
+                # （2026-09-11 に実測）。elevenlabs にすると LLM は算用数字のまま書き、
+                # ElevenLabs 側が TTS 直前に整形する（わずかに遅延が増える）。
+                'text_normalisation_type': 'elevenlabs',
+            },
             'turn': {'turn_timeout': 30, 'silence_end_call_timeout': 30},
             'conversation': {
                 'max_duration_seconds': 120,

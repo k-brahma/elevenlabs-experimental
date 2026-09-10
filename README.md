@@ -230,7 +230,9 @@ Gemini は `thinking_budget=0`（思考なし）で呼ぶ。2〜3 文の読み�
 
 - 当初の声 Sarah は ElevenLabs の検証済み言語に日本語が無い。無料でも使える premade のうち **George / Alice / Jessica は日本語が検証済み**（`GET /v1/voices` の `verified_languages`）。同じ文を 4 声で読ませて聞き比べ（`results/audio/voice-sample_*.wav`）、**Jessica** に切り替えた（`.env` の `ELEVENLABS_VOICE_ID`）
 - 年号の読みが不自然だったので、prompt に「算用数字で書く、日付は月日、年は省く」を足した。**B は従うが A は従わない**: A の返答は「五月十二日」「二十件から十件」と漢数字のまま（B は「5月12日」「20から10」）。同じモデル名でも、ElevenLabs の Agent 側で読み上げ向けの整形（数字の漢字化）が挟まっているように見える。TTS がどの書き方を一番自然に読むかは `results/audio/date-sample_*.wav`（Jessica、5 通り）で聞き比べる
-- 2026-09-11 16:30 UTC 以降の `runs.csv` の行は Jessica。それ以前は Sarah
+- **原因は Agent の TTS 設定 `text_normalisation_type`** だった。既定の `system_prompt` は LLM に「数字を語で書け」と指示するので、日本語では漢数字（五月十二日、二十件）になり、TTS の読みが崩れる。`elevenlabs`（生成後に ElevenLabs 側で整形）にすると LLM は算用数字のまま書き（5月12日、20から10）、読みが直った。遅延の増加は測定誤差の範囲（2.06 秒）。`agent_setup.py` で固定
+- B の「たどたどしさ」は文ごとに TTS へ送る作りに由来する可能性がある。同じ文を flash_v2_5 と multilingual_v2 で一括合成した比較が `results/audio/model-sample_*.wav`
+- 2026-09-11 16:30 UTC 以降の `runs.csv` の行は Jessica。それ以前は Sarah。18:00 UTC 以降の A は正規化 `elevenlabs`
 
 ## 費用の注意
 

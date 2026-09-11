@@ -4,14 +4,18 @@
 読み取り自体（`GET /v1/user/subscription`）は課金されない。
 
 会話ごとの正確な費用は、会話の詳細（`GET /v1/convai/conversations/{id}`）の
-``metadata.cost`` にある。こちらは会話の実装ができてから使う。
+``metadata.cost`` にある。残高の反映は遅れるので、費用はそちらを正とする。
+
+HTTP は ``httpx``。最初は「骨組みは標準ライブラリだけで動かす」方針で ``urllib`` を
+使っていたが、`elevenlabs` / `google-genai` が必須依存になった時点でその理由は消えた。
+repo 内の HTTP を 1 つに揃えるため、ほかのモジュールと同じ ``httpx`` にしている
+（``requests`` も間接的に入ってはいるが、宣言していないものは import しない）。
 """
 
-import json
-import urllib.error
-import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
+
+import httpx
 
 API_BASE = 'https://api.elevenlabs.io/v1'
 TIMEOUT_SECONDS = 30
@@ -55,17 +59,22 @@ def read_subscription(api_key: str) -> CreditsSnapshot:
 
     :raises CreditsError: 2xx 以外、接続失敗、または必要な項目が無い。
     """
-    request = urllib.request.Request(
-        f'{API_BASE}/user/subscription',
-        headers={'xi-api-key': api_key, 'accept': 'application/json'},
-    )
     try:
-        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-            payload = json.load(response)
-    except urllib.error.HTTPError as exc:
-        raise CreditsError(f'ElevenLabs が HTTP {exc.code} を返しました') from exc
-    except urllib.error.URLError as exc:
+        response = httpx.get(
+            f'{API_BASE}/user/subscription',
+            headers={'xi-api-key': api_key, 'accept': 'application/json'},
+            timeout=TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except httpx.HTTPStatusError as exc:
+        raise CreditsError(
+            f'ElevenLabs が HTTP {exc.response.status_code} を返しました'
+        ) from exc
+    except httpx.HTTPError as exc:
         raise CreditsError('ElevenLabs に接続できませんでした') from exc
+    except ValueError as exc:  # JSON として読めない本文
+        raise CreditsError('残高の応答が JSON ではありません') from exc
 
     try:
         return CreditsSnapshot(

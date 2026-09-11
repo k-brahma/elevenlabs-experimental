@@ -34,60 +34,50 @@
 
 ## 使い方
 
-```bash
-uv venv
-uv sync                       # A と B が動く（elevenlabs / google-genai / websockets）
-uv sync --extra dev           # テストを走らせるとき
-uv sync --extra conversation  # スピーカーで鳴らしたいとき（pyaudio）
-copy .env.example .env        # ELEVENLABS_API_KEY を書く。B を回すなら GEMINI_API_KEY も
+### 最初の 1 回だけ（環境を作る）
+
+```powershell
+uv venv                       # .venv を作る（python -m venv .venv でも同じ）
+uv sync --extra dev           # 依存 + テスト用を入れる
+copy .env.example .env        # ELEVENLABS_API_KEY と GEMINI_API_KEY を書く
 ```
 
-`GEMINI_API_KEY` は **B だけが要る**（https://aistudio.google.com/apikey）。
-A は同じ `gemini-3.6-flash` を ElevenLabs 側が動かすので鍵は要らない。
-未設定なら `run custom` は接続する前に「GEMINI_API_KEY が未設定です」で止まる。
+### 2 回目以降（uv を使わない）
 
-```bash
-# 今の残クレジットを見る（API を叩くが課金はされない）
-uv run voicelab credits
+`.venv` は**ごく普通の venv** で、uv 固有のものは入っていない。一度有効化すれば、
+あとは素の Python のコマンドだけで完結する。
 
-# 質問集を見る
-uv run voicelab scenarios
+```powershell
+.venv\Scripts\activate       # 有効化（プロンプトの頭に (elevenlabs) が付く）
 
-# A の Agent とツールを作る／更新する（課金されない。何度実行しても同じ状態になる）
-uv run voicelab setup-agent
-
-# 接続せずに確認する。ツールが期待のノートを引けるかはここで分かる（課金されない）
-uv run voicelab run agents --dry-run
-uv run voicelab run agents --dry-run --scenario deploy-check
-
-# 本番。クレジットを消費する
-uv run voicelab run agents --scenario deploy-check   # 1 問だけ
-uv run voicelab run agents                           # 全 5 問
-uv run voicelab run agents --no-audio                # WAV を残さない
-
-# B。検索結果と、LLM に渡す system prompt の先頭を見る（課金されない）
-uv run voicelab run custom --dry-run
-uv run voicelab run custom --dry-run --scenario deploy-check
-
-# B の本番。ElevenLabs のクレジットと Gemini のトークンを消費する
-uv run voicelab run custom --scenario deploy-check    # 1 問だけ
-uv run voicelab run custom                            # 全 5 問
-
-# 記録済みの結果から表を作る
-uv run voicelab report
+python run.py credits                       # 残高
+python run.py scenarios                     # 質問集
+python run.py run agents --scenario rollback        # A で 1 問（課金あり）
+python run.py run custom --scenario rollback        # B で 1 問（課金あり）
+python run.py run agents --dry-run                  # 接続せず確認だけ（課金なし）
+python run.py report                        # 表を作る
+pytest -q                                   # テスト
 ```
 
-`setup-agent` は、ツール `search_notes` と Agent `voicelab-a` を**名前で探して、無ければ作り、
-あれば上書きする**。作った Agent の id は `.env` の `ELEVENLABS_AGENT_ID` に書き戻す。
-Agent の指示は `prompts/agent_system.txt`、LLM は `.env` の `VOICELAB_LLM`（既定 `gemini-3.6-flash`）。
+`deactivate` で抜ける。
 
-`run agents` は実行前に残高を読み、**1,500 クレジットを切っていたら止まる**（`--force` で続行）。
-1 問ごとに新しい会話を開く。前の質問の文脈が残ると、ツールを呼ばずに前の答えを流用してしまい、
-1 往復の計測にならないため。
+### 同じことをする 4 つの書き方
 
-結果は `results/runs.csv`、音は `results/audio/`、返答と時刻は `results/transcripts/`。
-`correct`（期待したノートを根拠に答えたか）は**音を聞いて手で入れる**。自動判定にすると、
-「それらしい文字列が入っていれば正解」になって、比較の意味がなくなる。
+どれも中身は同じ（`pyproject.toml` の `[project.scripts]` が
+`voicelab = "voicelab.cli:main"` を宣言しているだけ）。
+
+| 書き方 | 有効化 | 備考 |
+|---|---|---|
+| `python run.py credits` | 要 | 素の Python らしい形。`run.py` は 3 行 |
+| `python -m voicelab credits` | 要 | `voicelab/__main__.py` を通る |
+| `voicelab credits` | 要 | インストール時に作られた `.venv\Scripts\voicelab.exe` |
+| `uv run voicelab credits` | 不要 | uv が `.venv` を選んでから実行する |
+
+`python voicelab/cli.py` だけは**動かない**。ファイルを直接指定するとパッケージの一部
+として読まれず、中の `from . import ...` が解決できないため。`run.py` はそれを避けるために置いてある。
+
+依存を足すときだけ uv（または有効化した状態で `pip install`）が要る。
+`uv add <パッケージ>` は `pyproject.toml` と `uv.lock` も更新するので、そちらが本筋。
 
 ## 計測の定義
 

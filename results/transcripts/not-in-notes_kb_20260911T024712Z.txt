@@ -1,0 +1,22 @@
+質問: 来週の天気はどう（not-in-notes）
+期待するノート: None
+会話 id: conv_0501m275rwqveh9v29gxxctkgz25
+
+## ツール呼び出し
+- 呼ばれなかった
+
+## RAG（ElevenLabs 側の検索）
+- rag_usage: {"usage_count": 1, "embedding_model": "multilingual_e5_large_instruct"}
+
+## 書き起こし（こちらの発言）
+- （なし）
+
+## 返答
+天気についての情報はノートには見当たりません。
+
+## 時刻
+- 最初の音まで: 2548 ms
+- 言い終わりまで: 3396 ms
+- 通話秒数: 5
+- クレジット: 41
+- 割り込み: なし

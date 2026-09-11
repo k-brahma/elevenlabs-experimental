@@ -650,7 +650,7 @@ def run_scenario(scenario: dict, *, save_audio: bool = True, env: dict[str, str]
     api_key = require('ELEVENLABS_API_KEY', env)
     gemini_key = require('GEMINI_API_KEY', env)
     voice_id = require('ELEVENLABS_VOICE_ID', env)
-    model_id = require('ELEVENLABS_MODEL_ID', env)
+    model_id = (env.get('VOICELAB_TTS_MODEL') or require('ELEVENLABS_MODEL_ID', env))
     llm = env.get('VOICELAB_LLM') or DEFAULT_LLM
 
     sink = AudioSink()

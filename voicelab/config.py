@@ -46,6 +46,7 @@ ENV_KEYS = (
     'ELEVENLABS_VOICE_ID',
     'ELEVENLABS_MODEL_ID',
     'VOICELAB_LLM',
+    'VOICELAB_TTS_MODEL',
     # B（自前構成）が LLM を自分で呼ぶのに要る。A は ElevenLabs 側で同じモデルを
     # 動かすので鍵は要らない。ここが A と B の費用の出方の違いでもある。
     'GEMINI_API_KEY',

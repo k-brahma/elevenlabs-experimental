@@ -27,6 +27,22 @@
 
 **モデルを替えるだけで読み違いはゼロになる。** 辞書も原稿の書き換えも要らなかった。
 
+### ただし `eleven_v3` はストリーミングの口では使えない
+
+自前でストリーミング TTS を組む場合（WebSocket の `stream-input`）、
+**`eleven_v3` は 403 で拒否される**（2026-09-11 実測）。使えたのは次の 3 つ。
+
+| モデル | stream-input | 日本語の一致率 |
+|---|---|---:|
+| `eleven_v3` | **403 拒否** | 100.0% |
+| `eleven_turbo_v2_5` | OK | 99.0% |
+| `eleven_flash_v2_5` | OK | 98.5% |
+| `eleven_multilingual_v2` | OK | 95.2% |
+
+つまり**自前構成では最高品質のモデルを使えない**。
+Agents Platform 経由（`eleven_v3_conversational`）なら使える。
+「自前のほうが自由が効く」と考えがちだが、**モデルの選択肢はむしろ狭くなる**。
+
 ### 会話（Agents）でも v3 が使える
 
 Agent の `conversation_config.tts.model_id` が受け付けるのは次の 6 つ。

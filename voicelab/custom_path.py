@@ -715,3 +715,13 @@ __all__ = [
     'split_sentences',
     'stream_gemini',
 ]
+
+
+if __name__ == '__main__':
+    # python -m voicelab.custom_path rollback
+    # **クレジットと Gemini のトークンを消費する。** 残高の見張りは cli 側にある。
+    import sys
+
+    from .config import find_scenario
+
+    print(run_scenario(find_scenario(sys.argv[1] if len(sys.argv) > 1 else 'rollback')))

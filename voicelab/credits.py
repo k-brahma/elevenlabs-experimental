@@ -95,3 +95,12 @@ def consumed(before: CreditsSnapshot, after: CreditsSnapshot) -> int:
     if after.resets_at != before.resets_at:
         return after.used
     return max(after.used - before.used, 0)
+
+
+if __name__ == '__main__':
+    # python -m voicelab.credits
+    # config をここで import するのは、この module 自体を .env に依存させないため
+    # （ライブラリとしては api_key を引数で受け取るだけにしておきたい）。
+    from .config import require
+
+    print(read_subscription(require('ELEVENLABS_API_KEY')).describe())

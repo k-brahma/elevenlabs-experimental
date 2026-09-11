@@ -61,6 +61,33 @@ pytest -q                                   # テスト
 
 `deactivate` で抜ける。
 
+### モジュールを直接叩く
+
+CLI のサブコマンドを覚えなくても、**モジュール 1 つを名指しで**動かせる。
+どれも `if __name__ == '__main__':` が数行あるだけで、中身は下に書いた関数を呼ぶだけ。
+
+| コマンド | 呼ばれる関数 | 課金 |
+|---|---|---|
+| `python -m voicelab.credits` | `credits.read_subscription()` | なし |
+| `python -m voicelab.search ロールバック` | `search.search()` | なし |
+| `python -m voicelab.metrics` | `metrics.render_report(load_runs())` | なし |
+| `python -m voicelab.agent_setup` | `agent_setup.setup()` | なし |
+| `python -m voicelab.agents_path rollback` | `agents_path.run_scenario()` | **あり** |
+| `python -m voicelab.custom_path rollback` | `custom_path.run_scenario()` | **あり** |
+
+下 2 つは 1 往復ぶん課金される。**残高の見張りは `cli.py` にあるので、この叩き方では効かない。**
+
+REPL からでも同じ。CLI を通さずに関数を直接呼べるよう、表示と引数解析は `cli.py` に、
+処理は各モジュールに分けてある（テスト 73 件も CLI を通さず関数を直接呼んでいる）。
+
+```python
+from voicelab import credits, search
+from voicelab.config import load_env
+
+search.search('ロールバック')                                  # 課金なし
+credits.read_subscription(load_env()['ELEVENLABS_API_KEY'])  # 鍵を貼らずに済む形
+```
+
 ### 同じことをする 4 つの書き方
 
 どれも中身は同じ（`pyproject.toml` の `[project.scripts]` が
@@ -78,6 +105,31 @@ pytest -q                                   # テスト
 
 依存を足すときだけ uv（または有効化した状態で `pip install`）が要る。
 `uv add <パッケージ>` は `pyproject.toml` と `uv.lock` も更新するので、そちらが本筋。
+
+### uv と pyproject.toml の関係
+
+`pyproject.toml` は **Python 標準の設定ファイル**（PEP 621）で、uv 固有のものではない。
+pip も setuptools も同じものを読む。uv は「そこに書いてあるとおりに `.venv` を揃える道具」。
+
+| 場所 | 何を書くか | 誰が読むか |
+|---|---|---|
+| `[project] dependencies` | 必須の依存 | uv / pip |
+| `[project.optional-dependencies]` | 任意の依存（ここでは `dev` と `conversation`） | `uv sync --extra dev` |
+| `[project.scripts]` | コマンド名 → 関数（`voicelab = "voicelab.cli:main"`） | インストール時に `.exe` を作る |
+| `[build-system]` | パッケージを組む道具（setuptools） | ビルド時 |
+| `uv.lock` | 依存の**正確な版**。uv 固有（`package-lock.json` に相当） | uv |
+
+uv のコマンドが実際にやること:
+
+- `uv venv` … `.venv` を作る。名前を省くと `.venv`（ドット付き）。`python -m venv .venv` と同じ
+- `uv sync` … `pyproject.toml` と `uv.lock` のとおりに `.venv` を**揃える**。
+  足りないものを入れ、**余計なものを消す**。`--extra dev` を付け忘れると pytest が消えるのはこのため
+- `uv add <パッケージ>` … `pyproject.toml` に 1 行足し、`uv.lock` を更新し、`.venv` に入れる。
+  有効化した状態の `pip install` でも `.venv` には入るが、`pyproject.toml` は更新されない
+- `uv run <コマンド>` … `.venv` を選んでから実行する。有効化していれば要らない
+
+つまり **uv が要るのは環境を作るときと依存を足すときだけ**で、それ以外は素の Python でよい。
+
 
 ## 計測の定義
 

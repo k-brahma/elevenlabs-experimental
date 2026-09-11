@@ -144,3 +144,9 @@ def write_report(runs: list[Run], path: Path = REPORT_MD) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(render_report(runs), encoding='utf-8')
     return path
+
+
+if __name__ == '__main__':
+    # python -m voicelab.metrics
+    # 記録済みの CSV から表を作って表示する（課金なし）。
+    print(render_report(load_runs()))

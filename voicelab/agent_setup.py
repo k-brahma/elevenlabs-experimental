@@ -286,3 +286,9 @@ def setup(env: dict[str, str] | None = None, *, env_path: Path = ENV_PATH) -> Se
         llm=llm,
         env_written=write_agent_id(agent_id, env_path),
     )
+
+
+if __name__ == '__main__':
+    # python -m voicelab.agent_setup
+    # A の Agent とツールを作る / 更新する（課金なし）。
+    print(setup().describe())

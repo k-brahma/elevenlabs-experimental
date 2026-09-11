@@ -132,3 +132,16 @@ def search_notes(query: str) -> str:
     どの LLM でも同じ形で読める。``ensure_ascii=False`` は日本語をそのまま出すため。
     """
     return json.dumps({'results': search(query)}, ensure_ascii=False)
+
+
+if __name__ == '__main__':
+    # python -m voicelab.search ロールバック
+    # 課金なし（corpus/ を読むだけ）。
+    import sys
+
+    q = ' '.join(sys.argv[1:]) or 'ロールバック'
+    hits = search(q)
+    print(f'query: {q}  → {len(hits)} 件')
+    for i, hit in enumerate(hits, 1):
+        print(f'{i}. {hit["note"]} / {hit.get("heading") or "(見出しなし)"}')
+        print(f'   {hit["excerpt"][:60]}')

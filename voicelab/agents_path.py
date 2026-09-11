@@ -482,3 +482,13 @@ def _wait_for_reply(t0: float, audio: MeasuringAudioInterface) -> str:
         if state in ('done', 'timeout'):
             return state
         time.sleep(0.05)
+
+
+if __name__ == '__main__':
+    # python -m voicelab.agents_path rollback
+    # **クレジットを消費する。** 残高の見張りは cli 側にあるので、ここには無い。
+    import sys
+
+    from .config import find_scenario
+
+    print(run_scenario(find_scenario(sys.argv[1] if len(sys.argv) > 1 else 'rollback')))

@@ -1,0 +1,665 @@
+{
+  "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+  "agent_name": "voicelab-a",
+  "conversation_product": "agent",
+  "status": "done",
+  "user_id": null,
+  "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+  "version_id": "agtvrsn_4701m261f03detbbnnah7ed216kx",
+  "metadata": {
+    "start_time_unix_secs": 1789056875,
+    "accepted_time_unix_secs": 1789056875,
+    "call_duration_secs": 5,
+    "queue_wait_secs": null,
+    "cost": 100,
+    "deletion_settings": {
+      "deletion_time_unix_secs": null,
+      "deleted_logs_at_time_unix_secs": null,
+      "deleted_audio_at_time_unix_secs": null,
+      "deleted_transcript_at_time_unix_secs": null,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false
+    },
+    "feedback": {
+      "type": null,
+      "overall_score": null,
+      "likes": 0,
+      "dislikes": 0,
+      "rating": null,
+      "comment": null
+    },
+    "authorization_method": "signed_url",
+    "charging": {
+      "dev_discount": false,
+      "is_burst": false,
+      "tier": "free",
+      "llm_usage": {
+        "irreversible_generation": {
+          "model_usage": {
+            "gemini-3.6-flash": {
+              "input": {
+                "tokens": 4928,
+                "price": 0.0036959999999999996
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 69,
+                "price": 0.00025875
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-3.6-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4928,
+                  "price": 0.0036959999999999996
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 69,
+                  "price": 0.00025875
+                }
+              }
+            }
+          ]
+        },
+        "initiated_generation": {
+          "model_usage": {
+            "gemini-3.6-flash": {
+              "input": {
+                "tokens": 4928,
+                "price": 0.0036959999999999996
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 69,
+                "price": 0.00025875
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-3.6-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4928,
+                  "price": 0.0036959999999999996
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 69,
+                  "price": 0.00025875
+                }
+              }
+            }
+          ]
+        }
+      },
+      "llm_price": 0.00395475,
+      "llm_charge": 40,
+      "call_charge": 60,
+      "platform_charge": 60,
+      "platform_usage": {
+        "category_usage": {
+          "voice": {
+            "credits": 60,
+            "price": 0.005966647239984013,
+            "quantity": 0.0894997085997602
+          }
+        }
+      },
+      "platform_price": 0.005966647239984013,
+      "free_minutes_consumed": 0.0,
+      "free_llm_dollars_consumed": 0.0,
+      "tts_usage": {
+        "primary_tts_model": "eleven_flash_v2_5",
+        "total_audio_output_seconds": 12.708437499999999,
+        "total_characters": 101,
+        "per_voice_usage": [
+          {
+            "voice_id": "EXAVITQu4vr4xnSDxMaL",
+            "audio_output_seconds": 12.708437499999999
+          }
+        ]
+      },
+      "asr_usage": {
+        "asr_model": "scribe_realtime",
+        "total_transcription_calls": 0,
+        "total_audio_input_seconds": 0.0
+      },
+      "analysis": null
+    },
+    "phone_call": null,
+    "batch_call": null,
+    "termination_reason": "Client disconnected: 1000",
+    "error": null,
+    "warnings": [],
+    "main_language": "ja",
+    "rag_usage": null,
+    "text_only": false,
+    "features_usage": {
+      "language_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_agent": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_number": {
+        "enabled": false,
+        "used": false
+      },
+      "multivoice": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_tones": {
+        "enabled": false,
+        "used": false
+      },
+      "external_mcp_servers": {
+        "enabled": false,
+        "used": false
+      },
+      "pii_zrm_workspace": false,
+      "pii_zrm_agent": false,
+      "tool_dynamic_variable_updates": {
+        "enabled": false,
+        "used": false
+      },
+      "is_livekit": false,
+      "voicemail_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_input": {
+        "enabled": false,
+        "used": false
+      },
+      "workflow": {
+        "enabled": false,
+        "tool_node": {
+          "enabled": false,
+          "used": false
+        },
+        "standalone_agent_node": {
+          "enabled": false,
+          "used": false
+        },
+        "phone_number_node": {
+          "enabled": false,
+          "used": false
+        },
+        "end_node": {
+          "enabled": false,
+          "used": false
+        }
+      },
+      "agent_testing": {
+        "enabled": false,
+        "tests_ran_after_last_modification": false,
+        "tests_ran_in_last_7_days": false
+      },
+      "versioning": {
+        "enabled": true,
+        "used": false
+      },
+      "file_input": {
+        "enabled": true,
+        "used": false
+      },
+      "freeform_procedure": {
+        "enabled": false,
+        "used": false
+      },
+      "structured_procedure": {
+        "enabled": false,
+        "used": false
+      }
+    },
+    "eleven_assistant": {
+      "is_eleven_assistant": false
+    },
+    "initiator_id": null,
+    "conversation_initiation_source": "python_sdk",
+    "conversation_initiation_source_version": "2.67.0",
+    "timezone": null,
+    "async_metadata": null,
+    "whatsapp": null,
+    "sms": null,
+    "agent_created_from": "api",
+    "agent_last_updated_from": "api",
+    "voice_rewards": [],
+    "cost_fiat": 0.009921397239984014
+  },
+  "analysis": {
+    "evaluation_criteria_results": {},
+    "data_collection_results": {},
+    "evaluation_criteria_results_list": [],
+    "data_collection_results_list": [],
+    "call_successful": "success",
+    "call_success_score": null,
+    "transcript_summary": "The user inquired about how to perform a rollback. The AI agent, using a `search_notes` tool, retrieved information from the \"Deployment Procedure\" notes. The response indicates that a rollback involves rebuilding and replacing the image with the previous tag. It also advises that restoring from backup is faster for reverting DB migrations and that the reason for the rollback should be added to the release notes.",
+    "call_summary_title": "ロールバック手順",
+    "scoped": [],
+    "sentiment_analysis": {
+      "overall_label": "neutral",
+      "overall_sentiment_score": 0.0,
+      "overall_frustration_score": 0.0,
+      "min_user_sentiment_score": 0.0,
+      "max_user_frustration_score": 0.0,
+      "num_scored_user_turns": 1
+    }
+  },
+  "visited_agents": [
+    {
+      "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg"
+    }
+  ],
+  "conversation_initiation_client_data": {
+    "conversation_config_override": {
+      "asr": null,
+      "turn": null,
+      "tts": null,
+      "conversation": null,
+      "agent": null
+    },
+    "custom_llm_extra_body": {},
+    "user_id": null,
+    "source_info": {
+      "source": "python_sdk",
+      "version": "2.67.0"
+    },
+    "branch_id": null,
+    "environment": null,
+    "starting_workflow_node_id": null,
+    "experiments": [],
+    "procedure_ids": null,
+    "dynamic_variables": {
+      "system__agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__agent_turns": 1,
+      "system__current_agent_turns": 1,
+      "system__current_subagent_turns": 1,
+      "system__current_agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__conversation_id": "conv_8801m261jyhzf29akebnzgb59y2n",
+      "system__call_duration_secs": 5,
+      "system__time_utc": "2026-09-10T16:14:40.457335+00:00",
+      "system__time": "Thursday, 16:14 10 September 2026",
+      "system__timezone": null,
+      "system__is_text_only": false,
+      "system__channel": "python_sdk",
+      "system__caller_id": null,
+      "system__called_number": null,
+      "system__call_sid": null,
+      "system__call_id": null,
+      "system__conversation_history": "{\"x-elevenlabs-history\": true, \"entries\": [{\"role\": \"user\", \"message\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\u306f\\u3069\\u3046\\u3084\\u308b\\u306e\"}, {\"role\": \"agent\", \"tool_requests\": [{\"tool_name\": \"search_notes\", \"params_as_json\": {\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}}]}, {\"role\": \"agent\", \"tool_results\": [{\"tool_name\": \"search_notes\", \"result_value\": \"{\\\"results\\\": [{\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\\", \\\"excerpt\\\": \\\"\\u76f4\\u524d\\u306e\\u30bf\\u30b0\\u3067\\u30a4\\u30e1\\u30fc\\u30b8\\u3092\\u30d3\\u30eb\\u30c9\\u3057\\u76f4\\u3057\\u3066\\u5165\\u308c\\u66ff\\u3048\\u308b\\u3002DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u3092\\u623b\\u3059\\u5fc5\\u8981\\u304c\\u3042\\u308b\\u3068\\u304d\\u306f\\u3001\\\\n\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304b\\u3089\\u5fa9\\u5143\\u3059\\u308b\\u65b9\\u304c\\u65e9\\u3044\\u3002\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\u3057\\u305f\\u3089\\u3001\\u7406\\u7531\\u3092\\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u8ffd\\u8a18\\u3059\\u308b\\u3002\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u524d\\u306e\\u78ba\\u8a8d\\\", \\\"excerpt\\\": \\\"- \\u30b9\\u30c6\\u30fc\\u30b8\\u30f3\\u30b0\\u3067\\u76f4\\u8fd1\\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u901a\\u3063\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u5909\\u66f4\\u306b DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u542b\\u307e\\u308c\\u308b\\u306a\\u3089\\u3001\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304c 24 \\u6642\\u9593\\u4ee5\\u5185\\u306b\\u53d6\\u308c\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u76e3\\u8996\\u306e\\u30a2\\u30e9\\u30fc\\u30c8\\u304c\\u9759\\u304b\\u3067\\u3042\\u308b\\u3053\\u3068\\uff08\\u76f4\\u524d\\u306b\\u5225\\u306e\\u969c\\u5bb3\\u304c\\u51fa\\u3066\\u3044\\u306a\\u3044\\u304b\\uff09\\\\n- \\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u300c\\u623b\\u3057\\u65b9\\u300d\\u304c\\u66f8\\u3044\\u3066\\u3042\\u308b\\u3053\\u3068\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u624b\\u9806\\\", \\\"excerpt\\\": \\\"1. `main` \\u306b\\u30bf\\u30b0\\u3092\\u6253\\u3064\\uff08`v` + \\u65e5\\u4ed8\\u3001\\u4f8b `v20260512`\\uff09\\\\n2. \\u30a4\\u30e1\\u30fc\\u30b8\\u3092\\u30d3\\u30eb\\u30c9\\u3057\\u3066\\u3001\\u30b3\\u30f3\\u30c6\\u30ca\\u3092\\u5165\\u308c\\u66ff\\u3048\\u308b\\\\n3. \\u30d8\\u30eb\\u30b9\\u30c1\\u30a7\\u30c3\\u30af\\u304c 3 \\u56de\\u9023\\u7d9a\\u3067\\u901a\\u308b\\u307e\\u3067\\u5f85\\u3064\\\\n4. \\u30c8\\u30c3\\u30d7\\u30da\\u30fc\\u30b8\\u3068\\u691c\\u7d22\\u3092\\u624b\\u3067 1 \\u56de\\u305a\\u3064\\u53e9\\u304f\\\"}]}\"}]}, {\"role\": \"agent\", \"message\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\u306b\\u3088...\"}]}",
+      "system__user_id": null,
+      "system__initiator_id": null
+    },
+    "tool_mock_config": {
+      "mocking_strategy": "none",
+      "fallback_strategy": "raise_error",
+      "mocked_tool_names": []
+    },
+    "tool_mock_overrides": {}
+  },
+  "environment": "production",
+  "experiment_assignments": null,
+  "hiding_reason": null,
+  "smb_metadata": null,
+  "conversation_id": "conv_8801m261jyhzf29akebnzgb59y2n",
+  "has_audio": true,
+  "has_user_audio": true,
+  "has_response_audio": true,
+  "has_auxiliary_audio": false,
+  "transcript": [
+    {
+      "role": "user",
+      "agent_metadata": null,
+      "message": "ロールバックはどうやるの",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": "text",
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": {
+        "user_sentiment_score": 0.0,
+        "user_frustration_score": 0.0
+      },
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_4701m261f03detbbnnah7ed216kx"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [
+        {
+          "type": "client",
+          "request_id": "search_notes_26304a647e3a4aa081c70430e864c0ef",
+          "tool_name": "search_notes",
+          "params_as_json": "{\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}",
+          "tool_has_been_called": true,
+          "tool_details": {
+            "type": "client",
+            "parameters": "{\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}"
+          }
+        }
+      ],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-3.6-flash",
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 0.9818798979977146
+          },
+          "convai_llm_tool_request_generation_latency": {
+            "elapsed_time": 0.982649817946367
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": null,
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-3.6-flash": {
+            "input": {
+              "tokens": 2316,
+              "price": 0.001737
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 17,
+              "price": 6.375e-05
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-3.6-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2316,
+                "price": 0.001737
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 17,
+                "price": 6.375e-05
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_4701m261f03detbbnnah7ed216kx"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [
+        {
+          "request_id": "search_notes_26304a647e3a4aa081c70430e864c0ef",
+          "tool_name": "search_notes",
+          "result_value": "{\"results\": [{\"note\": \"デプロイ手順\", \"heading\": \"ロールバック\", \"excerpt\": \"直前のタグでイメージをビルドし直して入れ替える。DB のマイグレーションを戻す必要があるときは、\\nバックアップから復元する方が早い。ロールバックしたら、理由をリリースノートに追記する。\"}, {\"note\": \"デプロイ手順\", \"heading\": \"デプロイ前の確認\", \"excerpt\": \"- ステージングで直近のマイグレーションが通っていること\\n- 変更に DB のマイグレーションが含まれるなら、バックアップが 24 時間以内に取れていること\\n- 監視のアラートが静かであること（直前に別の障害が出ていないか）\\n- リリースノートに「戻し方」が書いてあること\"}, {\"note\": \"デプロイ手順\", \"heading\": \"手順\", \"excerpt\": \"1. `main` にタグを打つ（`v` + 日付、例 `v20260512`）\\n2. イメージをビルドして、コンテナを入れ替える\\n3. ヘルスチェックが 3 回連続で通るまで待つ\\n4. トップページと検索を手で 1 回ずつ叩く\"}]}",
+          "is_error": false,
+          "is_blocked": false,
+          "tool_has_been_called": true,
+          "tool_latency_secs": 0.16274594800779596,
+          "error_type": "",
+          "raw_error_message": "",
+          "dynamic_variable_updates": [],
+          "type": "client"
+        }
+      ],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 1,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_4701m261f03detbbnnah7ed216kx"
+      },
+      "message": "デプロイ手順によ...",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-3.6-flash",
+      "time_in_call_secs": 2,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttf_sentence": {
+            "elapsed_time": 1.139174435986206
+          },
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 0.9005776289850473
+          },
+          "convai_llm_service_tt_last_sentence": {
+            "elapsed_time": 1.2349372850148939
+          },
+          "convai_tts_service_ttfb": {
+            "elapsed_time": 0.10162099899025634
+          },
+          "convai_ttf_audio_since_silence": {
+            "elapsed_time": 2.3974401309969835
+          },
+          "convai_turn_silence_before_initiation": {
+            "elapsed_time": 0.0
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": "eleven_flash_v2_5",
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-3.6-flash": {
+            "input": {
+              "tokens": 2612,
+              "price": 0.001959
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 52,
+              "price": 0.000195
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-3.6-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2612,
+                "price": 0.001959
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 52,
+                "price": 0.000195
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": true,
+      "ignored_as_backchannel": false,
+      "original_message": "デプロイ手順によると、直前のタグでイメージをビルドし直してコンテナを入れ替えます。データベースのマイグレーションを戻す必要があるときはバックアップから復元し、完了したら理由をリリースノートに追記します。",
+      "reasoning": [
+        {
+          "summary": null,
+          "provider_redact": false
+        }
+      ],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    }
+  ],
+  "tag_ids": [],
+  "realtime_config_snapshots": null,
+  "otlp_traces": null
+}

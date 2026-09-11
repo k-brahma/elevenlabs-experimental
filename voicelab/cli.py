@@ -4,17 +4,20 @@
 - ``scenarios`` … 質問集を表示
 - ``report`` … 記録済みの結果から表を作る
 - ``setup-agent`` … A の Agent とツールを作る／更新する（課金されない）
+- ``setup-kb`` … C の Knowledge Base と Agent を作る／更新する（課金されない）
 - ``run agents`` … A で質問集を流して計測する（**クレジットを消費する**）
 - ``run custom`` … B で質問集を流して計測する（**クレジットと Gemini のトークンを消費する**）
+- ``run kb`` … C で質問集を流して計測する（**クレジットを消費する**）
 
 **この層の責務は「何回・どの順で流すか」と「流してよいかの判断」**。
-1 往復の中身は :mod:`voicelab.agents_path`（A）と :mod:`voicelab.custom_path`（B）にある。
+1 往復の中身は :mod:`voicelab.agents_path`（A）、:mod:`voicelab.custom_path`（B）、
+:mod:`voicelab.kb_path`（C）にある。
 """
 
 import argparse
 import sys
 
-from . import agent_setup, agents_path, credits, custom_path, metrics
+from . import agent_setup, agents_path, credits, custom_path, kb_path, kb_setup, metrics
 from .config import ConfigError, find_scenario, load_scenarios, require
 
 #: これを下回っていたら会話を始めない（クレジット）。
@@ -49,9 +52,16 @@ def cmd_setup_agent(_args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_setup_kb(args: argparse.Namespace) -> int:
+    print(kb_setup.setup(recreate=args.recreate).describe())
+    return 0
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     if args.path == metrics.PATH_AGENTS:
         return _run_agents(args)
+    if args.path == metrics.PATH_KB:
+        return _run_kb(args)
     return _run_custom(args)
 
 
@@ -94,6 +104,55 @@ def _run_agents(args: argparse.Namespace) -> int:
     print(f'消費: {credits.consumed(before, after):,} クレジット（{len(scenarios)} 往復）')
     print(f'→ {metrics.write_report(metrics.load_runs())}')
     print('正誤（correct 列）は音を聞いて results/runs.csv に手で入れる。音は results/audio/。')
+    return 0
+
+
+def _run_kb(args: argparse.Namespace) -> int:
+    """C を流す。**残高の見張りは A と同じ門**（会話なので消費の仕方も A と同じ）。
+
+    A との違いは 1 往復の中身（道具を持たず、ElevenLabs 側の RAG が引く）だけなので、
+    ここは ``agents_path`` を ``kb_path`` に読み替えた以外、:func:`_run_agents` と同じにしてある。
+    止まる条件や 1 問 1 会話の縛りを構成ごとに変えると、数字が並べられなくなる。
+    """
+    scenarios = [find_scenario(args.scenario)] if args.scenario else load_scenarios()
+
+    if args.dry_run:
+        for scenario in scenarios:
+            print(kb_path.describe_dry_run(scenario))
+            print()
+        print('[dry-run] 会話していません。クレジットは消費していません。')
+        return 0
+
+    api_key = require('ELEVENLABS_API_KEY')
+    require('ELEVENLABS_KB_AGENT_ID')  # 先に見る。無いまま残高を読んでも進めない
+
+    before = credits.read_subscription(api_key)
+    print(f'実行前 {before.describe()}')
+    if before.remaining < MIN_CREDITS and not args.force:
+        print(
+            f'残り {before.remaining:,} は {MIN_CREDITS:,} を下回っています。'
+            ' 会話を始めません（続けるなら --force）。',
+            file=sys.stderr,
+        )
+        return 1
+
+    for scenario in scenarios:
+        # A と同じく 1 問ごとに新しい会話を開く。前の質問の文脈が残ると 1 往復の計測にならない。
+        print(f'--- {scenario["id"]}: {scenario["text"]}')
+        run = kb_path.run_scenario(scenario, save_audio=not args.no_audio)
+        metrics.append_run(run)
+        print(
+            f'    最初の音 {run.first_audio_ms} ms / 言い終わり {run.reply_done_ms} ms'
+            f' / {run.credits} クレジット'
+        )
+        print(f'    {run.note}')
+
+    after = credits.read_subscription(api_key)
+    print(f'実行後 {after.describe()}')
+    print(f'消費: {credits.consumed(before, after):,} クレジット（{len(scenarios)} 往復）')
+    print(f'→ {metrics.write_report(metrics.load_runs())}')
+    print('正誤（correct 列）は音を聞いて results/runs.csv に手で入れる。音は results/audio/。')
+    print('RAG が引かれたかは results/transcripts/ の rag_usage を見る。')
     return 0
 
 
@@ -160,8 +219,18 @@ def build_parser() -> argparse.ArgumentParser:
         'setup-agent', help='A の Agent とツールを作る／更新する（課金されない）'
     ).set_defaults(func=cmd_setup_agent)
 
+    setup_kb = sub.add_parser(
+        'setup-kb', help='C の Knowledge Base と Agent を作る／更新する（課金されない）'
+    )
+    setup_kb.add_argument(
+        '--recreate',
+        action='store_true',
+        help='預けてある文書を消して登録し直す（corpus/ の本文を直したとき）',
+    )
+    setup_kb.set_defaults(func=cmd_setup_kb)
+
     run = sub.add_parser('run', help='質問集を流して計測する')
-    run.add_argument('path', choices=metrics.PATHS, help='agents = A, custom = B')
+    run.add_argument('path', choices=metrics.PATHS, help='agents = A, custom = B, kb = C')
     run.add_argument('--scenario', help='質問の id（省略すると全部を順に）')
     run.add_argument(
         '--dry-run', action='store_true', help='接続せず、検索と設定の確認だけ（課金されない）'
@@ -180,7 +249,7 @@ def main(argv: list[str] | None = None) -> int:
         ConfigError,
         credits.CreditsError,
         agent_setup.SetupError,
-        agents_path.AgentsPathError,
+        agents_path.AgentsPathError,  # kb_path.KbPathError もこれを継いでいる
         custom_path.CustomPathError,
     ) as exc:
         print(f'エラー: {exc}', file=sys.stderr)

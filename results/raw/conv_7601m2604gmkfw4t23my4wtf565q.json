@@ -1,0 +1,665 @@
+{
+  "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+  "agent_name": "voicelab-a",
+  "conversation_product": "agent",
+  "status": "done",
+  "user_id": null,
+  "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+  "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn",
+  "metadata": {
+    "start_time_unix_secs": 1789055353,
+    "accepted_time_unix_secs": 1789055353,
+    "call_duration_secs": 6,
+    "queue_wait_secs": null,
+    "cost": 77,
+    "deletion_settings": {
+      "deletion_time_unix_secs": null,
+      "deleted_logs_at_time_unix_secs": null,
+      "deleted_audio_at_time_unix_secs": null,
+      "deleted_transcript_at_time_unix_secs": null,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false
+    },
+    "feedback": {
+      "type": null,
+      "overall_score": null,
+      "likes": 0,
+      "dislikes": 0,
+      "rating": null,
+      "comment": null
+    },
+    "authorization_method": "signed_url",
+    "charging": {
+      "dev_discount": false,
+      "is_burst": false,
+      "tier": "free",
+      "llm_usage": {
+        "irreversible_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4848,
+                "price": 0.0007272
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 256,
+                "price": 0.0001536
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4848,
+                  "price": 0.0007272
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 256,
+                  "price": 0.0001536
+                }
+              }
+            }
+          ]
+        },
+        "initiated_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4848,
+                "price": 0.0007272
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 256,
+                "price": 0.0001536
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4848,
+                  "price": 0.0007272
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 256,
+                  "price": 0.0001536
+                }
+              }
+            }
+          ]
+        }
+      },
+      "llm_price": 0.0008807999999999999,
+      "llm_charge": 9,
+      "call_charge": 68,
+      "platform_charge": 68,
+      "platform_usage": {
+        "category_usage": {
+          "voice": {
+            "credits": 68,
+            "price": 0.00673710740559424,
+            "quantity": 0.10105661108391359
+          }
+        }
+      },
+      "platform_price": 0.00673710740559424,
+      "free_minutes_consumed": 0.0,
+      "free_llm_dollars_consumed": 0.0,
+      "tts_usage": {
+        "primary_tts_model": "eleven_flash_v2_5",
+        "total_audio_output_seconds": 11.9519375,
+        "total_characters": 89,
+        "per_voice_usage": [
+          {
+            "voice_id": "EXAVITQu4vr4xnSDxMaL",
+            "audio_output_seconds": 11.9519375
+          }
+        ]
+      },
+      "asr_usage": {
+        "asr_model": "scribe_realtime",
+        "total_transcription_calls": 0,
+        "total_audio_input_seconds": 0.0
+      },
+      "analysis": null
+    },
+    "phone_call": null,
+    "batch_call": null,
+    "termination_reason": "Client disconnected: 1000",
+    "error": null,
+    "warnings": [],
+    "main_language": "ja",
+    "rag_usage": null,
+    "text_only": false,
+    "features_usage": {
+      "language_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_agent": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_number": {
+        "enabled": false,
+        "used": false
+      },
+      "multivoice": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_tones": {
+        "enabled": false,
+        "used": false
+      },
+      "external_mcp_servers": {
+        "enabled": false,
+        "used": false
+      },
+      "pii_zrm_workspace": false,
+      "pii_zrm_agent": false,
+      "tool_dynamic_variable_updates": {
+        "enabled": false,
+        "used": false
+      },
+      "is_livekit": false,
+      "voicemail_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_input": {
+        "enabled": false,
+        "used": false
+      },
+      "workflow": {
+        "enabled": false,
+        "tool_node": {
+          "enabled": false,
+          "used": false
+        },
+        "standalone_agent_node": {
+          "enabled": false,
+          "used": false
+        },
+        "phone_number_node": {
+          "enabled": false,
+          "used": false
+        },
+        "end_node": {
+          "enabled": false,
+          "used": false
+        }
+      },
+      "agent_testing": {
+        "enabled": false,
+        "tests_ran_after_last_modification": false,
+        "tests_ran_in_last_7_days": false
+      },
+      "versioning": {
+        "enabled": true,
+        "used": false
+      },
+      "file_input": {
+        "enabled": true,
+        "used": false
+      },
+      "freeform_procedure": {
+        "enabled": false,
+        "used": false
+      },
+      "structured_procedure": {
+        "enabled": false,
+        "used": false
+      }
+    },
+    "eleven_assistant": {
+      "is_eleven_assistant": false
+    },
+    "initiator_id": null,
+    "conversation_initiation_source": "python_sdk",
+    "conversation_initiation_source_version": "2.67.0",
+    "timezone": null,
+    "async_metadata": null,
+    "whatsapp": null,
+    "sms": null,
+    "agent_created_from": "api",
+    "agent_last_updated_from": "api",
+    "voice_rewards": [],
+    "cost_fiat": 0.00761790740559424
+  },
+  "analysis": {
+    "evaluation_criteria_results": {},
+    "data_collection_results": {},
+    "evaluation_criteria_results_list": [],
+    "data_collection_results_list": [],
+    "call_successful": "success",
+    "call_success_score": null,
+    "transcript_summary": "ユーザーはロールバックの方法を尋ね、AIは「デプロイ手順」に関するノートを検索しました。検索結果から、ロールバックは直前のタグでイメージを再ビルドして入れ替えること、DBマイグレーションの巻き戻しが必要な場合はバックアップからの復元が早いこと、そしてロールバックの理由をリリースノートに追記すべきであることが示されました。AIはこれらの情報に基づいて回答を開始しました。",
+    "call_summary_title": "ロールバック手順",
+    "scoped": [],
+    "sentiment_analysis": {
+      "overall_label": "neutral",
+      "overall_sentiment_score": 0.0,
+      "overall_frustration_score": 0.0,
+      "min_user_sentiment_score": 0.0,
+      "max_user_frustration_score": 0.0,
+      "num_scored_user_turns": 1
+    }
+  },
+  "visited_agents": [
+    {
+      "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg"
+    }
+  ],
+  "conversation_initiation_client_data": {
+    "conversation_config_override": {
+      "asr": null,
+      "turn": null,
+      "tts": null,
+      "conversation": null,
+      "agent": null
+    },
+    "custom_llm_extra_body": {},
+    "user_id": null,
+    "source_info": {
+      "source": "python_sdk",
+      "version": "2.67.0"
+    },
+    "branch_id": null,
+    "environment": null,
+    "starting_workflow_node_id": null,
+    "experiments": [],
+    "procedure_ids": null,
+    "dynamic_variables": {
+      "system__agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__agent_turns": 1,
+      "system__current_agent_turns": 1,
+      "system__current_subagent_turns": 1,
+      "system__current_agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__conversation_id": "conv_7601m2604gmkfw4t23my4wtf565q",
+      "system__call_duration_secs": 6,
+      "system__time_utc": "2026-09-10T15:49:19.574383+00:00",
+      "system__time": "Thursday, 15:49 10 September 2026",
+      "system__timezone": null,
+      "system__is_text_only": false,
+      "system__channel": "python_sdk",
+      "system__caller_id": null,
+      "system__called_number": null,
+      "system__call_sid": null,
+      "system__call_id": null,
+      "system__conversation_history": "{\"x-elevenlabs-history\": true, \"entries\": [{\"role\": \"user\", \"message\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\u306f\\u3069\\u3046\\u3084\\u308b\\u306e\"}, {\"role\": \"agent\", \"tool_requests\": [{\"tool_name\": \"search_notes\", \"params_as_json\": {\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}}]}, {\"role\": \"agent\", \"tool_results\": [{\"tool_name\": \"search_notes\", \"result_value\": \"{\\\"results\\\": [{\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\\", \\\"excerpt\\\": \\\"\\u76f4\\u524d\\u306e\\u30bf\\u30b0\\u3067\\u30a4\\u30e1\\u30fc\\u30b8\\u3092\\u30d3\\u30eb\\u30c9\\u3057\\u76f4\\u3057\\u3066\\u5165\\u308c\\u66ff\\u3048\\u308b\\u3002DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u3092\\u623b\\u3059\\u5fc5\\u8981\\u304c\\u3042\\u308b\\u3068\\u304d\\u306f\\u3001\\\\n\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304b\\u3089\\u5fa9\\u5143\\u3059\\u308b\\u65b9\\u304c\\u65e9\\u3044\\u3002\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\u3057\\u305f\\u3089\\u3001\\u7406\\u7531\\u3092\\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u8ffd\\u8a18\\u3059\\u308b\\u3002\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u524d\\u306e\\u78ba\\u8a8d\\\", \\\"excerpt\\\": \\\"- \\u30b9\\u30c6\\u30fc\\u30b8\\u30f3\\u30b0\\u3067\\u76f4\\u8fd1\\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u901a\\u3063\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u5909\\u66f4\\u306b DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u542b\\u307e\\u308c\\u308b\\u306a\\u3089\\u3001\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304c 24 \\u6642\\u9593\\u4ee5\\u5185\\u306b\\u53d6\\u308c\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u76e3\\u8996\\u306e\\u30a2\\u30e9\\u30fc\\u30c8\\u304c\\u9759\\u304b\\u3067\\u3042\\u308b\\u3053\\u3068\\uff08\\u76f4\\u524d\\u306b\\u5225\\u306e\\u969c\\u5bb3\\u304c\\u51fa\\u3066\\u3044\\u306a\\u3044\\u304b\\uff09\\\\n- \\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u300c\\u623b\\u3057\\u65b9\\u300d\\u304c\\u66f8\\u3044\\u3066\\u3042\\u308b\\u3053\\u3068\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u624b\\u9806\\\", \\\"excerpt\\\": \\\"1. `main` \\u306b\\u30bf\\u30b0\\u3092\\u6253\\u3064\\uff08`v` + \\u65e5\\u4ed8\\u3001\\u4f8b `v20260512`\\uff09\\\\n2. \\u30a4\\u30e1\\u30fc\\u30b8\\u3092\\u30d3\\u30eb\\u30c9\\u3057\\u3066\\u3001\\u30b3\\u30f3\\u30c6\\u30ca\\u3092\\u5165\\u308c\\u66ff\\u3048\\u308b\\\\n3. \\u30d8\\u30eb\\u30b9\\u30c1\\u30a7\\u30c3\\u30af\\u304c 3 \\u56de\\u9023\\u7d9a\\u3067\\u901a\\u308b\\u307e\\u3067\\u5f85\\u3064\\\\n4. \\u30c8\\u30c3\\u30d7\\u30da\\u30fc\\u30b8\\u3068\\u691c\\u7d22\\u3092\\u624b\\u3067 1 \\u56de\\u305a\\u3064\\u53e9\\u304f\\\"}]}\"}]}, {\"role\": \"agent\", \"message\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\u306b...\"}]}",
+      "system__user_id": null,
+      "system__initiator_id": null
+    },
+    "tool_mock_config": {
+      "mocking_strategy": "none",
+      "fallback_strategy": "raise_error",
+      "mocked_tool_names": []
+    },
+    "tool_mock_overrides": {}
+  },
+  "environment": "production",
+  "experiment_assignments": null,
+  "hiding_reason": null,
+  "smb_metadata": null,
+  "conversation_id": "conv_7601m2604gmkfw4t23my4wtf565q",
+  "has_audio": true,
+  "has_user_audio": true,
+  "has_response_audio": true,
+  "has_auxiliary_audio": false,
+  "transcript": [
+    {
+      "role": "user",
+      "agent_metadata": null,
+      "message": "ロールバックはどうやるの",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": "text",
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": {
+        "user_sentiment_score": 0.0,
+        "user_frustration_score": 0.0
+      },
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [
+        {
+          "type": "client",
+          "request_id": "search_notes_2a6c83b2c5ea45e0935c9e6bb4fc295b",
+          "tool_name": "search_notes",
+          "params_as_json": "{\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}",
+          "tool_has_been_called": true,
+          "tool_details": {
+            "type": "client",
+            "parameters": "{\"query\": \"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\"}"
+          }
+        }
+      ],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 0.9564030210021883
+          },
+          "convai_llm_tool_request_generation_latency": {
+            "elapsed_time": 0.9568168909754604
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": null,
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2280,
+              "price": 0.000342
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 58,
+              "price": 3.48e-05
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2280,
+                "price": 0.000342
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 58,
+                "price": 3.48e-05
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [
+        {
+          "request_id": "search_notes_2a6c83b2c5ea45e0935c9e6bb4fc295b",
+          "tool_name": "search_notes",
+          "result_value": "{\"results\": [{\"note\": \"デプロイ手順\", \"heading\": \"ロールバック\", \"excerpt\": \"直前のタグでイメージをビルドし直して入れ替える。DB のマイグレーションを戻す必要があるときは、\\nバックアップから復元する方が早い。ロールバックしたら、理由をリリースノートに追記する。\"}, {\"note\": \"デプロイ手順\", \"heading\": \"デプロイ前の確認\", \"excerpt\": \"- ステージングで直近のマイグレーションが通っていること\\n- 変更に DB のマイグレーションが含まれるなら、バックアップが 24 時間以内に取れていること\\n- 監視のアラートが静かであること（直前に別の障害が出ていないか）\\n- リリースノートに「戻し方」が書いてあること\"}, {\"note\": \"デプロイ手順\", \"heading\": \"手順\", \"excerpt\": \"1. `main` にタグを打つ（`v` + 日付、例 `v20260512`）\\n2. イメージをビルドして、コンテナを入れ替える\\n3. ヘルスチェックが 3 回連続で通るまで待つ\\n4. トップページと検索を手で 1 回ずつ叩く\"}]}",
+          "is_error": false,
+          "is_blocked": false,
+          "tool_has_been_called": true,
+          "tool_latency_secs": 0.1628501630621031,
+          "error_type": "",
+          "raw_error_message": "",
+          "dynamic_variable_updates": [],
+          "type": "client"
+        }
+      ],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 1,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": "デプロイ手順に...",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 3,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttf_sentence": {
+            "elapsed_time": 1.8408545559505
+          },
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 1.7972052280092612
+          },
+          "convai_llm_service_tt_last_sentence": {
+            "elapsed_time": 1.840849325992167
+          },
+          "convai_tts_service_ttfb": {
+            "elapsed_time": 0.0947307760361582
+          },
+          "convai_ttf_audio_since_silence": {
+            "elapsed_time": 3.065203636069782
+          },
+          "convai_turn_silence_before_initiation": {
+            "elapsed_time": 0.0
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": "eleven_flash_v2_5",
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2568,
+              "price": 0.0003852
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 198,
+              "price": 0.0001188
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2568,
+                "price": 0.0003852
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 198,
+                "price": 0.0001188
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": true,
+      "ignored_as_backchannel": false,
+      "original_message": "デプロイ手順によると、ロールバックは直前のタグでイメージをビルドし直して入れ替えます。データベースのマイグレーションを戻す必要がある場合は、バックアップから復元する方が早いです。",
+      "reasoning": [
+        {
+          "summary": null,
+          "provider_redact": false
+        }
+      ],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    }
+  ],
+  "tag_ids": [],
+  "realtime_config_snapshots": null,
+  "otlp_traces": null
+}

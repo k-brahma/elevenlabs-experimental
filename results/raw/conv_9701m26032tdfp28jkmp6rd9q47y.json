@@ -1,0 +1,665 @@
+{
+  "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+  "agent_name": "voicelab-a",
+  "conversation_product": "agent",
+  "status": "done",
+  "user_id": null,
+  "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+  "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn",
+  "metadata": {
+    "start_time_unix_secs": 1789055306,
+    "accepted_time_unix_secs": 1789055307,
+    "call_duration_secs": 6,
+    "queue_wait_secs": null,
+    "cost": 74,
+    "deletion_settings": {
+      "deletion_time_unix_secs": null,
+      "deleted_logs_at_time_unix_secs": null,
+      "deleted_audio_at_time_unix_secs": null,
+      "deleted_transcript_at_time_unix_secs": null,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false
+    },
+    "feedback": {
+      "type": null,
+      "overall_score": null,
+      "likes": 0,
+      "dislikes": 0,
+      "rating": null,
+      "comment": null
+    },
+    "authorization_method": "signed_url",
+    "charging": {
+      "dev_discount": false,
+      "is_burst": false,
+      "tier": "free",
+      "llm_usage": {
+        "irreversible_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4861,
+                "price": 0.00072915
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 219,
+                "price": 0.0001314
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4861,
+                  "price": 0.00072915
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 219,
+                  "price": 0.0001314
+                }
+              }
+            }
+          ]
+        },
+        "initiated_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4861,
+                "price": 0.00072915
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 219,
+                "price": 0.0001314
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4861,
+                  "price": 0.00072915
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 219,
+                  "price": 0.0001314
+                }
+              }
+            }
+          ]
+        }
+      },
+      "llm_price": 0.0008605500000000001,
+      "llm_charge": 8,
+      "call_charge": 66,
+      "platform_charge": 66,
+      "platform_usage": {
+        "category_usage": {
+          "voice": {
+            "credits": 66,
+            "price": 0.006518080060033956,
+            "quantity": 0.09777120090050934
+          }
+        }
+      },
+      "platform_price": 0.006518080060033956,
+      "free_minutes_consumed": 0.0,
+      "free_llm_dollars_consumed": 0.0,
+      "tts_usage": {
+        "primary_tts_model": "eleven_flash_v2_5",
+        "total_audio_output_seconds": 17.474125,
+        "total_characters": 132,
+        "per_voice_usage": [
+          {
+            "voice_id": "EXAVITQu4vr4xnSDxMaL",
+            "audio_output_seconds": 17.474125
+          }
+        ]
+      },
+      "asr_usage": {
+        "asr_model": "scribe_realtime",
+        "total_transcription_calls": 0,
+        "total_audio_input_seconds": 0.0
+      },
+      "analysis": null
+    },
+    "phone_call": null,
+    "batch_call": null,
+    "termination_reason": "Client disconnected: 1000",
+    "error": null,
+    "warnings": [],
+    "main_language": "ja",
+    "rag_usage": null,
+    "text_only": false,
+    "features_usage": {
+      "language_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_agent": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_number": {
+        "enabled": false,
+        "used": false
+      },
+      "multivoice": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_tones": {
+        "enabled": false,
+        "used": false
+      },
+      "external_mcp_servers": {
+        "enabled": false,
+        "used": false
+      },
+      "pii_zrm_workspace": false,
+      "pii_zrm_agent": false,
+      "tool_dynamic_variable_updates": {
+        "enabled": false,
+        "used": false
+      },
+      "is_livekit": false,
+      "voicemail_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_input": {
+        "enabled": false,
+        "used": false
+      },
+      "workflow": {
+        "enabled": false,
+        "tool_node": {
+          "enabled": false,
+          "used": false
+        },
+        "standalone_agent_node": {
+          "enabled": false,
+          "used": false
+        },
+        "phone_number_node": {
+          "enabled": false,
+          "used": false
+        },
+        "end_node": {
+          "enabled": false,
+          "used": false
+        }
+      },
+      "agent_testing": {
+        "enabled": false,
+        "tests_ran_after_last_modification": false,
+        "tests_ran_in_last_7_days": false
+      },
+      "versioning": {
+        "enabled": true,
+        "used": false
+      },
+      "file_input": {
+        "enabled": true,
+        "used": false
+      },
+      "freeform_procedure": {
+        "enabled": false,
+        "used": false
+      },
+      "structured_procedure": {
+        "enabled": false,
+        "used": false
+      }
+    },
+    "eleven_assistant": {
+      "is_eleven_assistant": false
+    },
+    "initiator_id": null,
+    "conversation_initiation_source": "python_sdk",
+    "conversation_initiation_source_version": "2.67.0",
+    "timezone": null,
+    "async_metadata": null,
+    "whatsapp": null,
+    "sms": null,
+    "agent_created_from": "api",
+    "agent_last_updated_from": "api",
+    "voice_rewards": [],
+    "cost_fiat": 0.007378630060033956
+  },
+  "analysis": {
+    "evaluation_criteria_results": {},
+    "data_collection_results": {},
+    "evaluation_criteria_results_list": [],
+    "data_collection_results_list": [],
+    "call_successful": "success",
+    "call_success_score": null,
+    "transcript_summary": "The user requested information on pre-deployment checks. The AI agent utilized a `search_notes` tool to retrieve relevant information, which included checks such as ensuring recent migrations passed in staging, having a database backup if migrations are involved, confirming monitoring alerts are quiet, and documenting rollback procedures in release notes.",
+    "call_summary_title": "デプロイ前確認事項",
+    "scoped": [],
+    "sentiment_analysis": {
+      "overall_label": "neutral",
+      "overall_sentiment_score": 0.0,
+      "overall_frustration_score": 0.0,
+      "min_user_sentiment_score": 0.0,
+      "max_user_frustration_score": 0.0,
+      "num_scored_user_turns": 1
+    }
+  },
+  "visited_agents": [
+    {
+      "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg"
+    }
+  ],
+  "conversation_initiation_client_data": {
+    "conversation_config_override": {
+      "asr": null,
+      "turn": null,
+      "tts": null,
+      "conversation": null,
+      "agent": null
+    },
+    "custom_llm_extra_body": {},
+    "user_id": null,
+    "source_info": {
+      "source": "python_sdk",
+      "version": "2.67.0"
+    },
+    "branch_id": null,
+    "environment": null,
+    "starting_workflow_node_id": null,
+    "experiments": [],
+    "procedure_ids": null,
+    "dynamic_variables": {
+      "system__agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__agent_turns": 1,
+      "system__current_agent_turns": 1,
+      "system__current_subagent_turns": 1,
+      "system__current_agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__conversation_id": "conv_9701m26032tdfp28jkmp6rd9q47y",
+      "system__call_duration_secs": 5,
+      "system__time_utc": "2026-09-10T15:48:32.460805+00:00",
+      "system__time": "Thursday, 15:48 10 September 2026",
+      "system__timezone": null,
+      "system__is_text_only": false,
+      "system__channel": "python_sdk",
+      "system__caller_id": null,
+      "system__called_number": null,
+      "system__call_sid": null,
+      "system__call_id": null,
+      "system__conversation_history": "{\"x-elevenlabs-history\": true, \"entries\": [{\"role\": \"user\", \"message\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u306e\\u524d\\u306b\\u78ba\\u8a8d\\u3059\\u308b\\u3053\\u3068\\u3092\\u6559\\u3048\\u3066\"}, {\"role\": \"agent\", \"tool_requests\": [{\"tool_name\": \"search_notes\", \"params_as_json\": {\"query\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u306e\\u524d\\u306b\\u78ba\\u8a8d\\u3059\\u308b\\u3053\\u3068\"}}]}, {\"role\": \"agent\", \"tool_results\": [{\"tool_name\": \"search_notes\", \"result_value\": \"{\\\"results\\\": [{\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u524d\\u306e\\u78ba\\u8a8d\\\", \\\"excerpt\\\": \\\"- \\u30b9\\u30c6\\u30fc\\u30b8\\u30f3\\u30b0\\u3067\\u76f4\\u8fd1\\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u901a\\u3063\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u5909\\u66f4\\u306b DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u542b\\u307e\\u308c\\u308b\\u306a\\u3089\\u3001\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304c 24 \\u6642\\u9593\\u4ee5\\u5185\\u306b\\u53d6\\u308c\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u76e3\\u8996\\u306e\\u30a2\\u30e9\\u30fc\\u30c8\\u304c\\u9759\\u304b\\u3067\\u3042\\u308b\\u3053\\u3068\\uff08\\u76f4\\u524d\\u306b\\u5225\\u306e\\u969c\\u5bb3\\u304c\\u51fa\\u3066\\u3044\\u306a\\u3044\\u304b\\uff09\\\\n- \\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u300c\\u623b\\u3057\\u65b9\\u300d\\u304c\\u66f8\\u3044\\u3066\\u3042\\u308b\\u3053\\u3068\\\"}, {\\\"note\\\": \\\"2026-05-12 \\u5b9a\\u4f8b\\u30e1\\u30e2\\\", \\\"heading\\\": \\\"\\u6c7a\\u307e\\u3063\\u305f\\u3053\\u3068\\\", \\\"excerpt\\\": \\\"- \\u691c\\u7d22\\u7d50\\u679c\\u306e\\u4ef6\\u6570\\u306e\\u65e2\\u5b9a\\u3092 20 \\u304b\\u3089 10 \\u306b\\u6e1b\\u3089\\u3059\\u3002\\u30b9\\u30de\\u30db\\u3067\\u4e0b\\u307e\\u3067\\u898b\\u306a\\u3044\\u305f\\u3081\\\\n- \\u5728\\u5eab\\u30a2\\u30e9\\u30fc\\u30c8\\u306e\\u95be\\u5024\\u3092 5 \\u304b\\u3089 3 \\u306b\\u4e0b\\u3052\\u308b\\u30025 \\u3060\\u3068\\u9cf4\\u308a\\u3059\\u304e\\u3066\\u8ab0\\u3082\\u898b\\u306a\\u304f\\u306a\\u3063\\u305f\\\\n- \\u6b21\\u56de\\u306e\\u30c7\\u30d7\\u30ed\\u30a4\\u306f 5 \\u6708 19 \\u65e5\\u306e\\u5348\\u524d\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\\", \\\"excerpt\\\": \\\"\\u76f4\\u524d\\u306e\\u30bf\\u30b0\\u3067\\u30a4\\u30e1\\u30fc\\u30b8\\u3092\\u30d3\\u30eb\\u30c9\\u3057\\u76f4\\u3057\\u3066\\u5165\\u308c\\u66ff\\u3048\\u308b\\u3002DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u3092\\u623b\\u3059\\u5fc5\\u8981\\u304c\\u3042\\u308b\\u3068\\u304d\\u306f\\u3001\\\\n\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304b\\u3089\\u5fa9\\u5143\\u3059\\u308b\\u65b9\\u304c\\u65e9\\u3044\\u3002\\u30ed\\u30fc\\u30eb\\u30d0\\u30c3\\u30af\\u3057\\u305f\\u3089\\u3001\\u7406\\u7531\\u3092\\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u8ffd\\u8a18\\u3059\\u308b\\u3002\\\"}]}\"}]}, {\"role\": \"agent\", \"message\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\u306b\\u3088...\"}]}",
+      "system__user_id": null,
+      "system__initiator_id": null
+    },
+    "tool_mock_config": {
+      "mocking_strategy": "none",
+      "fallback_strategy": "raise_error",
+      "mocked_tool_names": []
+    },
+    "tool_mock_overrides": {}
+  },
+  "environment": "production",
+  "experiment_assignments": null,
+  "hiding_reason": null,
+  "smb_metadata": null,
+  "conversation_id": "conv_9701m26032tdfp28jkmp6rd9q47y",
+  "has_audio": true,
+  "has_user_audio": true,
+  "has_response_audio": true,
+  "has_auxiliary_audio": false,
+  "transcript": [
+    {
+      "role": "user",
+      "agent_metadata": null,
+      "message": "デプロイの前に確認することを教えて",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": "text",
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": {
+        "user_sentiment_score": 0.0,
+        "user_frustration_score": 0.0
+      },
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [
+        {
+          "type": "client",
+          "request_id": "search_notes_8d5cde9ffee74ea690f6be63baadb3eb",
+          "tool_name": "search_notes",
+          "params_as_json": "{\"query\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u306e\\u524d\\u306b\\u78ba\\u8a8d\\u3059\\u308b\\u3053\\u3068\"}",
+          "tool_has_been_called": true,
+          "tool_details": {
+            "type": "client",
+            "parameters": "{\"query\": \"\\u30c7\\u30d7\\u30ed\\u30a4\\u306e\\u524d\\u306b\\u78ba\\u8a8d\\u3059\\u308b\\u3053\\u3068\"}"
+          }
+        }
+      ],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 0.9225315189687535
+          },
+          "convai_llm_tool_request_generation_latency": {
+            "elapsed_time": 0.9229898089542985
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": null,
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2283,
+              "price": 0.00034245
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 76,
+              "price": 4.5600000000000004e-05
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2283,
+                "price": 0.00034245
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 76,
+                "price": 4.5600000000000004e-05
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [
+        {
+          "request_id": "search_notes_8d5cde9ffee74ea690f6be63baadb3eb",
+          "tool_name": "search_notes",
+          "result_value": "{\"results\": [{\"note\": \"デプロイ手順\", \"heading\": \"デプロイ前の確認\", \"excerpt\": \"- ステージングで直近のマイグレーションが通っていること\\n- 変更に DB のマイグレーションが含まれるなら、バックアップが 24 時間以内に取れていること\\n- 監視のアラートが静かであること（直前に別の障害が出ていないか）\\n- リリースノートに「戻し方」が書いてあること\"}, {\"note\": \"2026-05-12 定例メモ\", \"heading\": \"決まったこと\", \"excerpt\": \"- 検索結果の件数の既定を 20 から 10 に減らす。スマホで下まで見ないため\\n- 在庫アラートの閾値を 5 から 3 に下げる。5 だと鳴りすぎて誰も見なくなった\\n- 次回のデプロイは 5 月 19 日の午前\"}, {\"note\": \"デプロイ手順\", \"heading\": \"ロールバック\", \"excerpt\": \"直前のタグでイメージをビルドし直して入れ替える。DB のマイグレーションを戻す必要があるときは、\\nバックアップから復元する方が早い。ロールバックしたら、理由をリリースノートに追記する。\"}]}",
+          "is_error": false,
+          "is_blocked": false,
+          "tool_has_been_called": true,
+          "tool_latency_secs": 0.1632039659889415,
+          "error_type": "",
+          "raw_error_message": "",
+          "dynamic_variable_updates": [],
+          "type": "client"
+        }
+      ],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 1,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": "デプロイ手順によ...",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 2,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttf_sentence": {
+            "elapsed_time": 1.3602896090596914
+          },
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 1.0850895349867642
+          },
+          "convai_llm_service_tt_last_sentence": {
+            "elapsed_time": 1.3602792089805007
+          },
+          "convai_tts_service_ttfb": {
+            "elapsed_time": 0.09086510702036321
+          },
+          "convai_ttf_audio_since_silence": {
+            "elapsed_time": 2.547609630972147
+          },
+          "convai_turn_silence_before_initiation": {
+            "elapsed_time": 0.0
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": "eleven_flash_v2_5",
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2578,
+              "price": 0.00038669999999999997
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 143,
+              "price": 8.58e-05
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2578,
+                "price": 0.00038669999999999997
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 143,
+                "price": 8.58e-05
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": true,
+      "ignored_as_backchannel": false,
+      "original_message": "デプロイ手順によると、デプロイ前にはステージングで直近のマイグレーションが通っていること、DBマイグレーションが含まれる場合はバックアップが二十四時間以内に取れていること、監視のアラートが静かであること、リリースノートに戻し方が書かれていることを確認してください。",
+      "reasoning": [
+        {
+          "summary": null,
+          "provider_redact": false
+        }
+      ],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    }
+  ],
+  "tag_ids": [],
+  "realtime_config_snapshots": null,
+  "otlp_traces": null
+}

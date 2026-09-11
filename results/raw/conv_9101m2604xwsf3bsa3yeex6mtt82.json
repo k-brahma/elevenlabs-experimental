@@ -1,0 +1,665 @@
+{
+  "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+  "agent_name": "voicelab-a",
+  "conversation_product": "agent",
+  "status": "done",
+  "user_id": null,
+  "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+  "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn",
+  "metadata": {
+    "start_time_unix_secs": 1789055367,
+    "accepted_time_unix_secs": 1789055367,
+    "call_duration_secs": 5,
+    "queue_wait_secs": null,
+    "cost": 71,
+    "deletion_settings": {
+      "deletion_time_unix_secs": null,
+      "deleted_logs_at_time_unix_secs": null,
+      "deleted_audio_at_time_unix_secs": null,
+      "deleted_transcript_at_time_unix_secs": null,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false
+    },
+    "feedback": {
+      "type": null,
+      "overall_score": null,
+      "likes": 0,
+      "dislikes": 0,
+      "rating": null,
+      "comment": null
+    },
+    "authorization_method": "signed_url",
+    "charging": {
+      "dev_discount": false,
+      "is_burst": false,
+      "tier": "free",
+      "llm_usage": {
+        "irreversible_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4824,
+                "price": 0.0007236
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 288,
+                "price": 0.0001728
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4824,
+                  "price": 0.0007236
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 288,
+                  "price": 0.0001728
+                }
+              }
+            }
+          ]
+        },
+        "initiated_generation": {
+          "model_usage": {
+            "gemini-2.5-flash": {
+              "input": {
+                "tokens": 4824,
+                "price": 0.0007236
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 288,
+                "price": 0.0001728
+              }
+            }
+          },
+          "detailed_model_usage": [
+            {
+              "config": {
+                "model": "gemini-2.5-flash",
+                "service_tier": "standard"
+              },
+              "usage": {
+                "input": {
+                  "tokens": 4824,
+                  "price": 0.0007236
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0.0
+                },
+                "output_total": {
+                  "tokens": 288,
+                  "price": 0.0001728
+                }
+              }
+            }
+          ]
+        }
+      },
+      "llm_price": 0.0008964,
+      "llm_charge": 9,
+      "call_charge": 62,
+      "platform_charge": 62,
+      "platform_usage": {
+        "category_usage": {
+          "voice": {
+            "credits": 62,
+            "price": 0.006155278315547751,
+            "quantity": 0.09232917473321625
+          }
+        }
+      },
+      "platform_price": 0.006155278315547751,
+      "free_minutes_consumed": 0.0,
+      "free_llm_dollars_consumed": 0.0,
+      "tts_usage": {
+        "primary_tts_model": "eleven_flash_v2_5",
+        "total_audio_output_seconds": 17.2471875,
+        "total_characters": 111,
+        "per_voice_usage": [
+          {
+            "voice_id": "EXAVITQu4vr4xnSDxMaL",
+            "audio_output_seconds": 17.2471875
+          }
+        ]
+      },
+      "asr_usage": {
+        "asr_model": "scribe_realtime",
+        "total_transcription_calls": 0,
+        "total_audio_input_seconds": 0.0
+      },
+      "analysis": null
+    },
+    "phone_call": null,
+    "batch_call": null,
+    "termination_reason": "Client disconnected: 1000",
+    "error": null,
+    "warnings": [],
+    "main_language": "ja",
+    "rag_usage": null,
+    "text_only": false,
+    "features_usage": {
+      "language_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_agent": {
+        "enabled": false,
+        "used": false
+      },
+      "transfer_to_number": {
+        "enabled": false,
+        "used": false
+      },
+      "multivoice": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_tones": {
+        "enabled": false,
+        "used": false
+      },
+      "external_mcp_servers": {
+        "enabled": false,
+        "used": false
+      },
+      "pii_zrm_workspace": false,
+      "pii_zrm_agent": false,
+      "tool_dynamic_variable_updates": {
+        "enabled": false,
+        "used": false
+      },
+      "is_livekit": false,
+      "voicemail_detection": {
+        "enabled": false,
+        "used": false
+      },
+      "dtmf_input": {
+        "enabled": false,
+        "used": false
+      },
+      "workflow": {
+        "enabled": false,
+        "tool_node": {
+          "enabled": false,
+          "used": false
+        },
+        "standalone_agent_node": {
+          "enabled": false,
+          "used": false
+        },
+        "phone_number_node": {
+          "enabled": false,
+          "used": false
+        },
+        "end_node": {
+          "enabled": false,
+          "used": false
+        }
+      },
+      "agent_testing": {
+        "enabled": false,
+        "tests_ran_after_last_modification": false,
+        "tests_ran_in_last_7_days": false
+      },
+      "versioning": {
+        "enabled": true,
+        "used": false
+      },
+      "file_input": {
+        "enabled": true,
+        "used": false
+      },
+      "freeform_procedure": {
+        "enabled": false,
+        "used": false
+      },
+      "structured_procedure": {
+        "enabled": false,
+        "used": false
+      }
+    },
+    "eleven_assistant": {
+      "is_eleven_assistant": false
+    },
+    "initiator_id": null,
+    "conversation_initiation_source": "python_sdk",
+    "conversation_initiation_source_version": "2.67.0",
+    "timezone": null,
+    "async_metadata": null,
+    "whatsapp": null,
+    "sms": null,
+    "agent_created_from": "api",
+    "agent_last_updated_from": "api",
+    "voice_rewards": [],
+    "cost_fiat": 0.007051678315547752
+  },
+  "analysis": {
+    "evaluation_criteria_results": {},
+    "data_collection_results": {},
+    "evaluation_criteria_results_list": [],
+    "data_collection_results_list": [],
+    "call_successful": "success",
+    "call_success_score": null,
+    "transcript_summary": "The user inquired about the meaning of \"RRF\". The agent utilized a `search_notes` tool to find the definition, which identified RRF as \"Reciprocal Rank Fusion\" from a glossary. The agent then confirmed the information was from the glossary.",
+    "call_summary_title": "RRF Definition",
+    "scoped": [],
+    "sentiment_analysis": {
+      "overall_label": "neutral",
+      "overall_sentiment_score": 0.0,
+      "overall_frustration_score": 0.0,
+      "min_user_sentiment_score": 0.0,
+      "max_user_frustration_score": 0.0,
+      "num_scored_user_turns": 1
+    }
+  },
+  "visited_agents": [
+    {
+      "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg"
+    }
+  ],
+  "conversation_initiation_client_data": {
+    "conversation_config_override": {
+      "asr": null,
+      "turn": null,
+      "tts": null,
+      "conversation": null,
+      "agent": null
+    },
+    "custom_llm_extra_body": {},
+    "user_id": null,
+    "source_info": {
+      "source": "python_sdk",
+      "version": "2.67.0"
+    },
+    "branch_id": null,
+    "environment": null,
+    "starting_workflow_node_id": null,
+    "experiments": [],
+    "procedure_ids": null,
+    "dynamic_variables": {
+      "system__agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__agent_turns": 1,
+      "system__current_agent_turns": 1,
+      "system__current_subagent_turns": 1,
+      "system__current_agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+      "system__conversation_id": "conv_9101m2604xwsf3bsa3yeex6mtt82",
+      "system__call_duration_secs": 5,
+      "system__time_utc": "2026-09-10T15:49:32.621703+00:00",
+      "system__time": "Thursday, 15:49 10 September 2026",
+      "system__timezone": null,
+      "system__is_text_only": false,
+      "system__channel": "python_sdk",
+      "system__caller_id": null,
+      "system__called_number": null,
+      "system__call_sid": null,
+      "system__call_id": null,
+      "system__conversation_history": "{\"x-elevenlabs-history\": true, \"entries\": [{\"role\": \"user\", \"message\": \"RRF \\u3063\\u3066\\u4f55\\u306e\\u3053\\u3068\"}, {\"role\": \"agent\", \"tool_requests\": [{\"tool_name\": \"search_notes\", \"params_as_json\": {\"query\": \"RRF \\u3063\\u3066\\u4f55\\u306e\\u3053\\u3068\"}}]}, {\"role\": \"agent\", \"tool_results\": [{\"tool_name\": \"search_notes\", \"result_value\": \"{\\\"results\\\": [{\\\"note\\\": \\\"\\u7528\\u8a9e\\u96c6\\\", \\\"heading\\\": \\\"RRF\\\", \\\"excerpt\\\": \\\"Reciprocal Rank Fusion\\u3002\\u30ad\\u30fc\\u30ef\\u30fc\\u30c9\\u691c\\u7d22\\u3068\\u610f\\u5473\\u691c\\u7d22\\u306e\\u3088\\u3046\\u306b\\u3001\\u5c3a\\u5ea6\\u306e\\u9055\\u3046\\u9806\\u4f4d\\u3092 1 \\u3064\\u306b\\u6df7\\u305c\\u308b\\u65b9\\u6cd5\\u3002\\\\n\\u305d\\u308c\\u305e\\u308c\\u306e\\u9806\\u4f4d\\u306e\\u9006\\u6570\\u3092\\u8db3\\u3057\\u5408\\u308f\\u305b\\u3066\\u4e26\\u3079\\u76f4\\u3059\\u3002\\u30d2\\u30c3\\u30c8\\u6570\\u3068\\u8ddd\\u96e2\\u306e\\u3088\\u3046\\u306b\\u5358\\u4f4d\\u304c\\u9055\\u3046\\u3082\\u306e\\u3092\\u3001\\\\n\\u9806\\u4f4d\\u3060\\u3051\\u3092\\u898b\\u308b\\u3053\\u3068\\u3067\\u63c3\\u3048\\u3089\\u308c\\u308b\\u3002\\\"}, {\\\"note\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u624b\\u9806\\\", \\\"heading\\\": \\\"\\u30c7\\u30d7\\u30ed\\u30a4\\u524d\\u306e\\u78ba\\u8a8d\\\", \\\"excerpt\\\": \\\"- \\u30b9\\u30c6\\u30fc\\u30b8\\u30f3\\u30b0\\u3067\\u76f4\\u8fd1\\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u901a\\u3063\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u5909\\u66f4\\u306b DB \\u306e\\u30de\\u30a4\\u30b0\\u30ec\\u30fc\\u30b7\\u30e7\\u30f3\\u304c\\u542b\\u307e\\u308c\\u308b\\u306a\\u3089\\u3001\\u30d0\\u30c3\\u30af\\u30a2\\u30c3\\u30d7\\u304c 24 \\u6642\\u9593\\u4ee5\\u5185\\u306b\\u53d6\\u308c\\u3066\\u3044\\u308b\\u3053\\u3068\\\\n- \\u76e3\\u8996\\u306e\\u30a2\\u30e9\\u30fc\\u30c8\\u304c\\u9759\\u304b\\u3067\\u3042\\u308b\\u3053\\u3068\\uff08\\u76f4\\u524d\\u306b\\u5225\\u306e\\u969c\\u5bb3\\u304c\\u51fa\\u3066\\u3044\\u306a\\u3044\\u304b\\uff09\\\\n- \\u30ea\\u30ea\\u30fc\\u30b9\\u30ce\\u30fc\\u30c8\\u306b\\u300c\\u623b\\u3057\\u65b9\\u300d\\u304c\\u66f8\\u3044\\u3066\\u3042\\u308b\\u3053\\u3068\\\"}, {\\\"note\\\": \\\"2026-05-12 \\u5b9a\\u4f8b\\u30e1\\u30e2\\\", \\\"heading\\\": \\\"\\u6301\\u3061\\u8d8a\\u3057\\\", \\\"excerpt\\\": \\\"- \\u97f3\\u58f0\\u3067\\u306e\\u691c\\u7d22\\u306f\\u3001\\u9045\\u5ef6\\u3092\\u6e2c\\u3063\\u3066\\u304b\\u3089\\u5224\\u65ad\\u3059\\u308b\\\\n- \\u7528\\u8a9e\\u96c6\\u306b\\u300c\\u30c1\\u30e3\\u30f3\\u30af\\u300d\\u306e\\u8aac\\u660e\\u3092\\u8db3\\u3059\\uff08\\u62c5\\u5f53: \\u4f50\\u85e4\\uff09\\\"}]}\"}]}, {\"role\": \"agent\", \"message\": \"\\u7528\\u8a9e\\u96c6\\u306b\\u3088\\u308b...\"}]}",
+      "system__user_id": null,
+      "system__initiator_id": null
+    },
+    "tool_mock_config": {
+      "mocking_strategy": "none",
+      "fallback_strategy": "raise_error",
+      "mocked_tool_names": []
+    },
+    "tool_mock_overrides": {}
+  },
+  "environment": "production",
+  "experiment_assignments": null,
+  "hiding_reason": null,
+  "smb_metadata": null,
+  "conversation_id": "conv_9101m2604xwsf3bsa3yeex6mtt82",
+  "has_audio": true,
+  "has_user_audio": true,
+  "has_response_audio": true,
+  "has_auxiliary_audio": false,
+  "transcript": [
+    {
+      "role": "user",
+      "agent_metadata": null,
+      "message": "RRF って何のこと",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": "text",
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": {
+        "user_sentiment_score": 0.0,
+        "user_frustration_score": 0.0
+      },
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [
+        {
+          "type": "client",
+          "request_id": "search_notes_fdf0c5f6b95244a2b94111ec2b34c88e",
+          "tool_name": "search_notes",
+          "params_as_json": "{\"query\": \"RRF \\u3063\\u3066\\u4f55\\u306e\\u3053\\u3068\"}",
+          "tool_has_been_called": true,
+          "tool_details": {
+            "type": "client",
+            "parameters": "{\"query\": \"RRF \\u3063\\u3066\\u4f55\\u306e\\u3053\\u3068\"}"
+          }
+        }
+      ],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 1,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 1.020558602991514
+          },
+          "convai_llm_tool_request_generation_latency": {
+            "elapsed_time": 1.0211663129739463
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": null,
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2280,
+              "price": 0.000342
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 82,
+              "price": 4.9199999999999997e-05
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2280,
+                "price": 0.000342
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 82,
+                "price": 4.9199999999999997e-05
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": null,
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [
+        {
+          "request_id": "search_notes_fdf0c5f6b95244a2b94111ec2b34c88e",
+          "tool_name": "search_notes",
+          "result_value": "{\"results\": [{\"note\": \"用語集\", \"heading\": \"RRF\", \"excerpt\": \"Reciprocal Rank Fusion。キーワード検索と意味検索のように、尺度の違う順位を 1 つに混ぜる方法。\\nそれぞれの順位の逆数を足し合わせて並べ直す。ヒット数と距離のように単位が違うものを、\\n順位だけを見ることで揃えられる。\"}, {\"note\": \"デプロイ手順\", \"heading\": \"デプロイ前の確認\", \"excerpt\": \"- ステージングで直近のマイグレーションが通っていること\\n- 変更に DB のマイグレーションが含まれるなら、バックアップが 24 時間以内に取れていること\\n- 監視のアラートが静かであること（直前に別の障害が出ていないか）\\n- リリースノートに「戻し方」が書いてあること\"}, {\"note\": \"2026-05-12 定例メモ\", \"heading\": \"持ち越し\", \"excerpt\": \"- 音声での検索は、遅延を測ってから判断する\\n- 用語集に「チャンク」の説明を足す（担当: 佐藤）\"}]}",
+          "is_error": false,
+          "is_blocked": false,
+          "tool_has_been_called": true,
+          "tool_latency_secs": 0.16899642604403198,
+          "error_type": "",
+          "raw_error_message": "",
+          "dynamic_variable_updates": [],
+          "type": "client"
+        }
+      ],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": null,
+      "time_in_call_secs": 1,
+      "conversation_turn_metrics": null,
+      "rag_retrieval_info": null,
+      "llm_usage": null,
+      "interrupted": false,
+      "ignored_as_backchannel": false,
+      "original_message": null,
+      "reasoning": [],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": false
+    },
+    {
+      "role": "agent",
+      "agent_metadata": {
+        "agent_id": "agent_6601m25zw7jmeq795h8eqd864g0n",
+        "branch_id": "agtbrch_3201m25zw8v7edb8801q1k9h42cg",
+        "workflow_node_id": null,
+        "version_id": "agtvrsn_7001m2600rgvevb8x5kvypehphpn"
+      },
+      "message": "用語集による...",
+      "multivoice_message": null,
+      "tool_calls": [],
+      "tool_results": [],
+      "feedback": null,
+      "llm_override": null,
+      "producing_llm": "gemini-2.5-flash",
+      "time_in_call_secs": 2,
+      "conversation_turn_metrics": {
+        "metrics": {
+          "convai_llm_service_ttf_sentence": {
+            "elapsed_time": 1.4541921920026653
+          },
+          "convai_llm_service_ttfb": {
+            "elapsed_time": 1.258703397004865
+          },
+          "convai_llm_service_tt_last_sentence": {
+            "elapsed_time": 1.4541837619617581
+          },
+          "convai_tts_service_ttfb": {
+            "elapsed_time": 0.1200767369591631
+          },
+          "convai_ttf_audio_since_silence": {
+            "elapsed_time": 2.77851534698857
+          },
+          "convai_turn_silence_before_initiation": {
+            "elapsed_time": 0.0
+          }
+        },
+        "convai_asr_provider": null,
+        "convai_tts_model": "eleven_flash_v2_5",
+        "convai_tts_cascade": null
+      },
+      "rag_retrieval_info": null,
+      "llm_usage": {
+        "model_usage": {
+          "gemini-2.5-flash": {
+            "input": {
+              "tokens": 2544,
+              "price": 0.00038159999999999995
+            },
+            "input_cache_read": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "input_cache_write": {
+              "tokens": 0,
+              "price": 0.0
+            },
+            "output_total": {
+              "tokens": 206,
+              "price": 0.0001236
+            }
+          }
+        },
+        "detailed_model_usage": [
+          {
+            "config": {
+              "model": "gemini-2.5-flash",
+              "service_tier": "standard"
+            },
+            "usage": {
+              "input": {
+                "tokens": 2544,
+                "price": 0.00038159999999999995
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0.0
+              },
+              "output_total": {
+                "tokens": 206,
+                "price": 0.0001236
+              }
+            }
+          }
+        ]
+      },
+      "interrupted": true,
+      "ignored_as_backchannel": false,
+      "original_message": "用語集によると、RRFはレジプロカルランクフュージョンと読み、キーワード検索と意味検索のように尺度の違う順位を一つに混ぜる方法です。それぞれの順位の逆数を足し合わせて並べ直すことで、単位が違うものを順位だけで揃えられます。",
+      "reasoning": [
+        {
+          "summary": null,
+          "provider_redact": false
+        }
+      ],
+      "source_medium": null,
+      "source_event_id": 1,
+      "used_static_kb_document_ids": [],
+      "analysis": null,
+      "user_identifier": null,
+      "id": null,
+      "compaction": null,
+      "triggered_guardrails": [],
+      "file_input": null,
+      "file_inputs": [],
+      "contextual_update_info": null,
+      "config_snapshot_id": null,
+      "reasoned": true
+    }
+  ],
+  "tag_ids": [],
+  "realtime_config_snapshots": null,
+  "otlp_traces": null
+}

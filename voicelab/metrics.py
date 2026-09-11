@@ -1,6 +1,6 @@
 """計測結果の記録と、表の出力。
 
-1 往復（質問 1 つ → 回答 1 つ）を 1 行として CSV に積む。構成（A / B）ごとに
+1 往復（質問 1 つ → 回答 1 つ）を 1 行として CSV に積む。構成（A / B / C）ごとに
 中央値を出して Markdown の表にする。数字の意味は README の「比べるのは 3 つ」。
 """
 
@@ -15,10 +15,12 @@ from .config import RESULTS_DIR
 RUNS_CSV = RESULTS_DIR / 'runs.csv'
 REPORT_MD = RESULTS_DIR / 'report.md'
 
-#: 比べる 2 構成。
-PATH_AGENTS = 'agents'  # A: Agents Platform
-PATH_CUSTOM = 'custom'  # B: Scribe + 検索 + ストリーミング TTS
-PATHS = (PATH_AGENTS, PATH_CUSTOM)
+#: 比べる 3 構成。CSV の ``path`` 列にそのまま入る値なので、**一度書いた綴りは変えない**
+#: （変えると過去の行が読めなくなる）。C を足しても A・B の行はそのまま読める。
+PATH_AGENTS = 'agents'  # A: Agents Platform（ノートは手元、道具で引く）
+PATH_CUSTOM = 'custom'  # B: 自前構成（ノートは手元、先に引いて渡す）
+PATH_KB = 'kb'  # C: Knowledge Base（ノートを ElevenLabs に預け、向こうの RAG で引く）
+PATHS = (PATH_AGENTS, PATH_CUSTOM, PATH_KB)
 
 
 @dataclass
@@ -26,7 +28,7 @@ class Run:
     """1 往復の記録。
 
     :ivar scenario_id: ``scenarios/questions.json`` の id。
-    :ivar path: ``agents`` か ``custom``。
+    :ivar path: ``agents`` / ``custom`` / ``kb``。
     :ivar first_audio_ms: 話し終わってから最初の音が出るまで。体感の遅延はこれ。
     :ivar reply_done_ms: 話し終わってから回答が言い終わるまで。
     :ivar credits: この往復で消費したクレジット（会話の ``cost``、無ければ残高の差）。
@@ -121,7 +123,11 @@ def render_report(runs: list[Run]) -> str:
         '| クレジット合計 | 1 往復あたり | 正答 |',
         '|---|---:|---:|---:|---:|---:|---|',
     ]
-    labels = {PATH_AGENTS: 'A: Agents Platform', PATH_CUSTOM: 'B: 自前構成'}
+    labels = {
+        PATH_AGENTS: 'A: Agents Platform',
+        PATH_CUSTOM: 'B: 自前構成',
+        PATH_KB: 'C: Knowledge Base',
+    }
     for path, row in summary.items():
         lines.append(
             f'| {labels[path]} | {row["runs"]} | {row["first_audio_ms_median"]:.0f} '

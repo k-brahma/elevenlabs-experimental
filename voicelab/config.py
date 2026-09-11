@@ -24,6 +24,12 @@ SCENARIOS_PATH = ROOT / 'scenarios' / 'questions.json'
 #: コードを触らず `setup-agent` の再実行だけで反映させたいため。
 AGENT_PROMPT_PATH = ROOT / 'prompts' / 'agent_system.txt'
 
+#: C（Knowledge Base）に持たせる指示。A との違いは**冒頭の 2 行だけ**で、
+#: 「必ず search_notes を呼ぶ」が「ノートを参照できる」に変わっている。
+#: 残りの行（長さ・出典・記号・数字）を A と同じ文言にしてあるのは、
+#: 測った差が prompt の差にならないようにするため。
+KB_PROMPT_PATH = ROOT / 'prompts' / 'agent_system_kb.txt'
+
 #: 会話の録音。あとで聞いて正誤を判定するために残す。
 AUDIO_DIR = RESULTS_DIR / 'audio'
 
@@ -34,6 +40,9 @@ TRANSCRIPTS_DIR = RESULTS_DIR / 'transcripts'
 ENV_KEYS = (
     'ELEVENLABS_API_KEY',
     'ELEVENLABS_AGENT_ID',
+    # C（Knowledge Base）の Agent。`setup-kb` が書く。A の Agent とは別物で、
+    # 道具を持たない代わりにノート本文を ElevenLabs 側に預けてある
+    'ELEVENLABS_KB_AGENT_ID',
     'ELEVENLABS_VOICE_ID',
     'ELEVENLABS_MODEL_ID',
     'VOICELAB_LLM',

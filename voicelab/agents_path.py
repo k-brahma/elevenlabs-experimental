@@ -179,7 +179,8 @@ class Capture:
     tool_calls: list[ToolCall] = field(default_factory=list)
 
 
-def _stamp() -> str:
+def utc_stamp() -> str:
+    """ファイル名に入れる UTC の時刻印。**C も同じものを使う**（並べ替えの基準を揃えるため）。"""
     return datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 
 
@@ -207,13 +208,17 @@ def make_tool_handler(capture: Capture, clock: Callable[[], float] = time.perf_c
     return handler
 
 
-def fetch_conversation_cost(
+def fetch_conversation_metadata(
     api_key: str, conversation_id: str, *, wait_seconds: float = 30.0
-) -> tuple[int | None, int | None]:
-    """会話の費用と通話秒数を取る。``(credits, call_duration_secs)``。
+) -> dict | None:
+    """会話が確定するまで待って ``metadata`` をそのまま返す（待ちきれなければ None）。
 
     終了直後は ``status`` が ``in-progress`` のまま費用が確定していないことがあるので、
-    ``done`` になるまで 2 秒間隔で待つ。待ちきれなければ ``(None, None)``。
+    ``done`` になるまで 2 秒間隔で待つ。
+
+    **辞書のまま返すのは C（Knowledge Base）のため**。C は費用と通話秒数に加えて
+    ``rag_usage`` を書き起こしに残す（ElevenLabs 側の RAG が実際に引かれた証拠になる）。
+    A が要るのは費用と秒数だけなので、そちらは :func:`fetch_conversation_cost` が包む。
     """
     deadline = time.monotonic() + wait_seconds
     headers = {'xi-api-key': api_key, 'accept': 'application/json'}
@@ -222,20 +227,35 @@ def fetch_conversation_cost(
             try:
                 response = client.get(f'{API_BASE}/convai/conversations/{conversation_id}')
             except httpx.HTTPError:
-                return None, None
+                return None
             if response.status_code < 400:
                 payload = response.json()
-                metadata = payload.get('metadata') or {}
                 if payload.get('status') == 'done':
-                    cost = metadata.get('cost')
-                    duration = metadata.get('call_duration_secs')
-                    return (
-                        int(cost) if cost is not None else None,
-                        int(duration) if duration is not None else None,
-                    )
+                    return payload.get('metadata') or {}
             if time.monotonic() >= deadline:
-                return None, None
+                return None
             time.sleep(2)
+
+
+def conversation_cost(metadata: dict | None) -> tuple[int | None, int | None]:
+    """``metadata`` から ``(credits, call_duration_secs)`` を取り出す純粋関数。"""
+    if metadata is None:
+        return None, None
+    cost = metadata.get('cost')
+    duration = metadata.get('call_duration_secs')
+    return (
+        int(cost) if cost is not None else None,
+        int(duration) if duration is not None else None,
+    )
+
+
+def fetch_conversation_cost(
+    api_key: str, conversation_id: str, *, wait_seconds: float = 30.0
+) -> tuple[int | None, int | None]:
+    """会話の費用と通話秒数を取る。``(credits, call_duration_secs)``。"""
+    return conversation_cost(
+        fetch_conversation_metadata(api_key, conversation_id, wait_seconds=wait_seconds)
+    )
 
 
 def save_audio_file(
@@ -273,8 +293,13 @@ def render_transcript(
     credits: int | None,
     duration_secs: int | None,
     interrupted: bool,
+    rag_usage: dict | None = None,
 ) -> str:
-    """会話 1 回分を、音を聞かなくても追える形の文章にする。"""
+    """会話 1 回分を、音を聞かなくても追える形の文章にする。
+
+    :param rag_usage: 会話メタデータの ``rag_usage``。**C（Knowledge Base）専用**で、
+        渡すと「## RAG」の節が増える。A・B は渡さないので出力は変わらない。
+    """
     lines = [
         f'質問: {scenario["text"]}（{scenario["id"]}）',
         f'期待するノート: {scenario.get("expected_note")}',
@@ -287,6 +312,12 @@ def render_transcript(
             lines.append(f'- {TOOL_NAME}(query={call.query!r}) → {call.hits} 件 / 1位={call.top_note}')
     else:
         lines.append('- 呼ばれなかった')
+    if rag_usage is not None:
+        lines += [
+            '',
+            '## RAG（ElevenLabs 側の検索）',
+            f'- rag_usage: {json.dumps(rag_usage, ensure_ascii=False)}',
+        ]
     lines += [
         '',
         '## 書き起こし（こちらの発言）',
@@ -327,10 +358,18 @@ def build_note(
     interrupted: bool,
     timed_out: bool,
     cost_missing: bool,
+    lead: str | None = None,
 ) -> str:
-    """CSV の 1 列に収まる長さで、あとから見て困らないだけのことを書く。"""
+    """CSV の 1 列に収まる長さで、あとから見て困らないだけのことを書く。
+
+    :param lead: 先頭の一言を差し替える。**C（Knowledge Base）専用**で、道具を持たない C では
+        「ツール呼ばなかった」と書いても何も伝わらないため、代わりに RAG の使われ方を入れる。
+        既定の None なら今までどおりツールの呼び出し状況を書く。
+    """
     parts: list[str] = []
-    if capture.tool_calls:
+    if lead is not None:
+        parts.append(lead)
+    elif capture.tool_calls:
         top = capture.tool_calls[0].top_note
         parts.append(f'ツール呼んだ({len(capture.tool_calls)}回) 1位={top}')
     else:
@@ -407,10 +446,10 @@ def run_scenario(
 
     conversation.start_session()
     try:
-        _wait_for_connection(conversation)
+        wait_for_connection(conversation)
         t0 = time.perf_counter()
         conversation.send_user_message(scenario['text'])
-        state = _wait_for_reply(t0, audio)
+        state = wait_for_reply(t0, audio)
     finally:
         conversation.end_session()
         conversation_id = conversation.wait_for_session_end()
@@ -420,7 +459,7 @@ def run_scenario(
         fetch_conversation_cost(api_key, conversation_id) if conversation_id else (None, None)
     )
 
-    stamp = _stamp()
+    stamp = utc_stamp()
     if save_audio and audio.chunks:
         save_audio_file(audio.pcm(), scenario['id'], stamp)
     save_transcript(
@@ -455,7 +494,7 @@ def run_scenario(
     )
 
 
-def _wait_for_connection(conversation: Conversation) -> None:
+def wait_for_connection(conversation: Conversation) -> None:
     """conversation_id が入るまで待つ。
 
     SDK には「つながったか」を知る公開の手段が無く、``start_session()`` は背景スレッドを
@@ -475,7 +514,7 @@ def _wait_for_connection(conversation: Conversation) -> None:
         time.sleep(0.05)
 
 
-def _wait_for_reply(t0: float, audio: MeasuringAudioInterface) -> str:
+def wait_for_reply(t0: float, audio: MeasuringAudioInterface) -> str:
     """返事が終わる（か、来ない）まで待つ。戻り値は ``done`` か ``timeout``。"""
     while True:
         state = reply_state(t0, time.perf_counter(), audio.times)

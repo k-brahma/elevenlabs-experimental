@@ -1,18 +1,86 @@
 # elevenlabs voice lab
 
-同じ音声エージェントを **2 通りで作って比べる**ための実験場。「どちらの構成をいつ選ぶか」を、
+同じ音声エージェントを **3 通りで作って比べる**ための実験場。「どの構成をいつ選ぶか」を、
 数字で言えるようにするのが目的。
 
-- **A: Agents Platform** … ElevenLabs の Agent（音声認識・応答生成・発話・割り込みを丸ごと任せる）
-- **B: 自前構成** … 自前の検索 + Gemini + ストリーミング TTS を自分でつなぐ
+- **A: Agents Platform** … ElevenLabs の Agent（音声認識・応答生成・発話・割り込みを丸ごと任せる）。ノートは手元に置き、Agent が道具（client tool）で引く
+- **B: 自前構成** … 自前の検索 + Gemini + ストリーミング TTS を自分でつなぐ。ノートは手元に置き、LLM に選ばせず先に引く
+- **C: Knowledge Base** … ノートの本文を **ElevenLabs 側にアップロードして預け**、向こうの RAG で引かせる。道具は持たせない
 
-比べるのは 3 つ。
+違いは「[3 つの構成](#3-つの構成)」の表にまとめてある。
+
+比べる観点は 3 つ。
 
 | 観点 | 測り方 |
 |---|---|
 | 遅延 | 質問を投げてから最初の音が出るまで（ms）。自前で計る（[計測の定義](#計測の定義)） |
-| 費用 | 1 往復あたりのクレジット。A は会話ごとの `cost`（分単位）、B は TTS の文字数（[B の設計](#b-の設計)）。どちらも実行前後の残高の差と突き合わせる |
+| 費用 | 1 往復あたりのクレジット。A と C は会話ごとの `cost`（分単位）、B は TTS の文字数（[B の設計](#b-の設計)）。どれも実行前後の残高の差と突き合わせる |
 | 実装量 | 行数と、自分で面倒を見る必要があるものの数（割り込み、無音判定、再接続…） |
+
+## 3 つの構成
+
+**何を ElevenLabs に渡し、何を手元に置くか**が構成の正体で、遅延も費用も運用の面倒さも
+そこから出てくる。
+
+| | A: Agents Platform | B: 自前構成 | C: Knowledge Base |
+|---|---|---|---|
+| ノートの本文 | **手元**（`corpus/`） | **手元**（`corpus/`） | **ElevenLabs に預ける**（アップロード） |
+| 検索の実装 | **手元**（`search.py` を道具として呼ばれる） | **手元**（`search.py` を先に呼ぶ） | **ElevenLabs 側**（内部の RAG） |
+| 検索を呼ぶ判断 | LLM（道具を選ぶ） | こちら（毎回必ず引く） | ElevenLabs 側（`usage_mode: auto`） |
+| LLM の呼び出し | **ElevenLabs 側** | **自分**（Gemini API） | **ElevenLabs 側** |
+| 音声（TTS） | ElevenLabs 側 | ElevenLabs の TTS に自分でつなぐ | ElevenLabs 側 |
+| Agent が持つ道具 | `search_notes` 1 つ | なし（Agent を使わない） | **なし** |
+| ツール往復 | **あり**（実測 1.5〜2 秒） | なし | なし |
+| ノートを直したとき | そのまま反映される | そのまま反映される | **`setup-kb` で同期が要る** |
+| ノートが外に出るか | 出ない | 出ない | **出る** |
+| 費用の出方 | 会話の `cost` に全部込み | TTS の文字数 ＋ Gemini のトークン（二社に分かれる） | 会話の `cost` に全部込み |
+
+読み方:
+
+- **A と B はどちらもノートを手元に置いている。** 違うのは「誰が検索を呼ぶか」と
+  「LLM を誰が動かすか」だけ
+- **C だけが本文を渡している。** そのぶんツール往復が消えるので**一番速い可能性がある**が、
+  ノートが外に出て、直すたびに同期が要る。社外に出せないノートでは選べない
+- 検索の質は 3 つで**揃わない**。A・B は同じ `search.py`（文字バイグラム）、C は ElevenLabs の
+  RAG（`multilingual_e5_large_instruct` の埋め込み）。遅延と費用は比べられるが、
+  正誤は「別の検索どうしの比較」になることに注意する
+
+### C の作り方（`setup-kb`）
+
+```powershell
+python run.py setup-kb            # corpus/ の 3 本を登録 → 索引 → Agent voicelab-c
+python run.py run kb --dry-run --scenario deploy-check
+python run.py run kb --scenario deploy-check      # 1 問（課金あり）
+```
+
+- `setup-kb` は**名前を鍵にして冪等**。文書名は `search.py` が使うノート名（ファイル名から
+  拡張子を落としたもの）と揃えてある。既にあれば作り直さず使い回し、索引を確かめて
+  Agent を更新する。`corpus/` の**本文そのもの**を直したときだけ `--recreate` を付ける
+  （確認済みの API に本文を差し替える口が無く、消してから入れ直すしかない）
+- 索引の埋め込みは **`multilingual_e5_large_instruct` で固定**。既定の
+  `e5_mistral_7b_instruct` は英語寄りで、日本語のノートでは引けない
+- 索引は**出来上がるまで待つ**（2 秒間隔、最大 120 秒）。状態は `created` →
+  `processing` → `succeeded` と進む。**`created` はまだ引けない**ので、
+  `succeeded` だけを出来上がりとみなしている。初回は 1 本あたり 5〜11 秒だった
+- 作った Agent の id は `.env` の `ELEVENLABS_KB_AGENT_ID` に書く（A の
+  `ELEVENLABS_AGENT_ID` とは別。両方を残して測り比べるため）
+- 声・TTS モデル・LLM・`turn`・`client_events`・`max_duration_seconds`・
+  `text_normalisation_type`・認証は **A と同じ値**にしてある
+  （`agent_setup.build_agent_body` を A と C で共有）。prompt も A と同じ文言で、
+  違うのは冒頭の 2 行（「必ず `search_notes` を呼ぶ」→「ノートを参照できます」）だけ
+- `run kb --dry-run` は会話せずに「預けてある文書が何本か」「RAG の埋め込みが日本語向きか」
+  「道具が空か」を表示する（クレジットを使わない）
+
+### C が RAG を使ったことをどう確かめるか
+
+会話メタデータ（`GET /v1/convai/conversations/{id}`）の `metadata.rag_usage` を
+書き起こし（`results/transcripts/<id>_kb_<UTC>.txt`）に丸ごと残している。
+これが空なら「速かったのは何も引かなかったから」を疑う。
+
+```
+## RAG（ElevenLabs 側の検索）
+- rag_usage: {"usage_count": 1, "embedding_model": "multilingual_e5_large_instruct"}
+```
 
 ## なぜ web app ではないのか
 
@@ -21,7 +89,7 @@
 
 ## 状態
 
-**A・B とも 5 問流して並べ、正誤も入れた（2026-09-11）。残りは音声入力（Scribe）の追加。**
+**A・B とも 5 問流して並べ、正誤も入れた（2026-09-11）。C は 1 問で疎通を確かめたところ（5 問は未実行）。**
 
 - [x] 題材データ（`corpus/`）と質問集（`scenarios/questions.json`）
 - [x] クレジット残高の記録（`voicelab/credits.py`）
@@ -31,6 +99,9 @@
 - [x] A: Agents Platform で 1 往復する（`voicelab/agents_path.py`）… 5 問 + 再測 1 回、計 6 往復
 - [x] B: 検索 + Gemini + ストリーミング TTS で 1 往復する（`voicelab/custom_path.py`）… **実行待ち**
 - [x] 5 問 × 2 構成を流して表にする（下の「A と B を並べる」）
+- [x] ノートを Knowledge Base に預けて索引を張る（`voicelab/kb_setup.py`）
+- [x] C: Knowledge Base で 1 往復する（`voicelab/kb_path.py`）… **疎通の 1 問だけ。5 問は実行待ち**
+- [ ] 5 問 × 3 構成で表を作り直す
 
 ## 使い方
 
@@ -41,6 +112,9 @@ uv venv                       # .venv を作る（python -m venv .venv でも同
 uv sync --extra dev           # 依存 + テスト用を入れる
 copy .env.example .env        # ELEVENLABS_API_KEY と GEMINI_API_KEY を書く
 ```
+
+Agent の id は手で書かなくてよい。`setup-agent` が `ELEVENLABS_AGENT_ID`（A）を、
+`setup-kb` が `ELEVENLABS_KB_AGENT_ID`（C）を、それぞれ `.env` の該当行だけ書き換える。
 
 ### 2 回目以降（uv を使わない）
 
@@ -54,7 +128,9 @@ python run.py credits                       # 残高
 python run.py scenarios                     # 質問集
 python run.py run agents --scenario rollback        # A で 1 問（課金あり）
 python run.py run custom --scenario rollback        # B で 1 問（課金あり）
+python run.py run kb --scenario rollback            # C で 1 問（課金あり）
 python run.py run agents --dry-run                  # 接続せず確認だけ（課金なし）
+python run.py setup-kb                              # C の登録・索引・Agent（課金なし）
 python run.py report                        # 表を作る
 pytest -q                                   # テスト
 ```
@@ -71,8 +147,11 @@ ElevenLabs にも Gemini にも依存していない。それが**そのまま�
   `search.search_notes()` が手元で走って戻り値が LLM に渡る（`agents_path.py` の handler）。
   ツールがサーバ側実行（webhook）ではないので、公開 URL もトンネルも要らない
 - **B**: LLM に選ばせず、質問が来たら**先に**同じ関数を呼んで、結果を prompt に添える
+- **C**: この関数を**使わない**。ノートの本文を ElevenLabs に預けてあり、向こうの RAG が引く。
+  `search.py` が残っているのは、A・B と同じ質問で「手元ならどう引けたか」を
+  クレジットを使わずに見比べるため（`voicelab run kb --dry-run` は手元の corpus の本数も出す）
 
-**両方が同じ検索を使うことが、この比較の前提**。検索が違えば、A と B の遅延差が
+**A と B が同じ検索を使うことが、この比較の前提**。検索が違えば、A と B の遅延差が
 「音声の経路の違い」なのか「検索の違い」なのか分からなくなる。
 また、知識源が無ければ比較そのものが成り立たない（ツール呼び出しの往復＝A の遅延の
 1.5〜2 秒ぶんが測れず、「渡した文を読み上げるだけ」の比較になる）。
@@ -95,10 +174,12 @@ CLI のサブコマンドを覚えなくても、**モジュール 1 つを名�
 | `python -m voicelab.search ロールバック` | `search.search()` | なし |
 | `python -m voicelab.metrics` | `metrics.render_report(load_runs())` | なし |
 | `python -m voicelab.agent_setup` | `agent_setup.setup()` | なし |
+| `python -m voicelab.kb_setup` | `kb_setup.setup()` | なし |
 | `python -m voicelab.agents_path rollback` | `agents_path.run_scenario()` | **あり** |
 | `python -m voicelab.custom_path rollback` | `custom_path.run_scenario()` | **あり** |
+| `python -m voicelab.kb_path rollback` | `kb_path.run_scenario()` | **あり** |
 
-下 2 つは 1 往復ぶん課金される。**残高の見張りは `cli.py` にあるので、この叩き方では効かない。**
+下 3 つは 1 往復ぶん課金される。**残高の見張りは `cli.py` にあるので、この叩き方では効かない。**
 
 REPL からでも同じ。CLI を通さずに関数を直接呼べるよう、表示と引数解析は `cli.py` に、
 処理は各モジュールに分けてある（テスト 73 件も CLI を通さず関数を直接呼んでいる）。
@@ -269,14 +350,15 @@ Gemini は `thinking_budget=0`（思考なし）で呼ぶ。2〜3 文の読み�
 ## A と B を並べる（どちらも gemini-3.6-flash、2026-09-11）
 
 同じ 5 問を、同じ検索関数・同じ声・同じ TTS モデル・同じ LLM で流した。全行は `results/runs.csv`。
+**C の列は 5 問を流してから書く（下の「C の疎通確認」を参照）。**
 
-| 質問 | A 最初の音 | B 最初の音 | B の内訳: LLM 初トークン | A クレジット | B クレジット（TTS 見積り） |
-|---|---:|---:|---:|---:|---:|
-| デプロイ前の確認 | 2,479 ms | 3,460 ms | 3,133 ms | 100 | 55 |
-| ロールバック | 2,653 ms | 6,224 ms | 5,925 ms | 100 | 50 |
-| RRF とは | 2,633 ms | 4,229 ms | 3,869 ms | 98 | 50 |
-| 5/12 の定例 | 1,871 ms | 2,845 ms | 2,397 ms | 88 | 50 |
-| 来週の天気（無い） | 2,049 ms | 1,674 ms | 1,481 ms | 85 | 16 |
+| 質問 | A 最初の音 | B 最初の音 | C 最初の音 | B の内訳: LLM 初トークン | A クレジット | B クレジット（TTS 見積り） | C クレジット |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| デプロイ前の確認 | 2,479 ms | 3,460 ms | 実行待ち | 3,133 ms | 100 | 55 | 実行待ち |
+| ロールバック | 2,653 ms | 6,224 ms | 実行待ち | 5,925 ms | 100 | 50 | 実行待ち |
+| RRF とは | 2,633 ms | 4,229 ms | 実行待ち | 3,869 ms | 98 | 50 | 実行待ち |
+| 5/12 の定例 | 1,871 ms | 2,845 ms | 実行待ち | 2,397 ms | 88 | 50 | 実行待ち |
+| 来週の天気（無い） | 2,049 ms | 1,674 ms | 実行待ち | 1,481 ms | 85 | 16 | 実行待ち |
 
 読み方:
 
@@ -291,6 +373,23 @@ Gemini は `thinking_budget=0`（思考なし）で呼ぶ。2〜3 文の読み�
 - **速さと手離れ**なら A。割り込み・無音判定・再接続を自分で書かなくてよく、それでいて速い
 - **費用の内訳の見える化と、LLM や検索の差し替え自由度**なら B。ただし LLM の応答速度がそのまま体感に出るので、モデルと呼び方（思考の抑制、リージョン）を自分で詰める覚悟が要る
 
+## C の疎通確認（1 問だけ、2026-09-11）
+
+5 問はまだ流していない。**つながることと RAG が引かれることを確かめるために 1 問だけ**流した。
+
+| 質問 | 最初の音 | 言い終わり | クレジット | 通話秒数 | rag_usage |
+|---|---:|---:|---:|---:|---|
+| デプロイ前の確認 | **1,039 ms** | 1,841 ms | 53 | 4 秒 | `usage_count: 1` / `multilingual_e5_large_instruct` |
+
+- 同じ質問の **A は 2,479 ms・100 クレジット**だったので、**C は 1.4 秒速く、費用は約半分**。
+  A の中央値（2,061 ms）と比べても半分に近い。ツール往復（LLM がツールを選ぶ → 検索 →
+  LLM が答えを作る）が丸ごと消えたぶんと見て辻褄が合う
+- 返答は `デプロイ手順によると、デプロイ前に確認することは4つあります。…` で、
+  ノートを根拠にし、出典のノート名を口頭で添え、数字も算用数字だった（A と同じ prompt の効き方）
+- 通話 4 秒で 53 クレジット。**A の 85〜100 より安いのは、速く終わったぶん**
+  （会話は分単位の課金なので、往復が短いほど安い）
+- ただし **1 問では中央値もばらつきも言えない**。5 問流してから表を埋めること
+
 ## 声と数字の読み（2026-09-11）
 
 - 当初の声 Sarah は ElevenLabs の検証済み言語に日本語が無い。無料でも使える premade のうち **George / Alice / Jessica は日本語が検証済み**（`GET /v1/voices` の `verified_languages`）。同じ文を 4 声で読ませて聞き比べ（`results/audio/voice-sample_*.wav`）、**Jessica** に切り替えた（`.env` の `ELEVENLABS_VOICE_ID`）
@@ -299,10 +398,37 @@ Gemini は `thinking_budget=0`（思考なし）で呼ぶ。2〜3 文の読み�
 - B の「たどたどしさ」は文ごとに TTS へ送る作りに由来する可能性がある。同じ文を flash_v2_5 と multilingual_v2 で一括合成した比較が `results/audio/model-sample_*.wav`
 - 2026-09-11 16:30 UTC 以降の `runs.csv` の行は Jessica。それ以前は Sarah。18:00 UTC 以降の A は正規化 `elevenlabs`
 
+## 日本語で使う人へ（つまずいた点と対処）
+
+この repo を見て ElevenLabs を日本語で使おうとしている人へ。
+**実測して分かったことは `FINDINGS_JA.md` にまとめた。** 要点だけ先に書く。
+
+| つまずき | 対処 |
+|---|---|
+| 漢字を読み違える（`応答`→えいたい、`通話`→どうが） | **モデルを `eleven_v3` 系にする。** `eleven_multilingual_v2` は日本語で最下位だった |
+| Agent が漢数字で喋る（`二千二十六年`） | prompt では直らない。`tts.text_normalisation_type` を `elevenlabs` にする |
+| 発音辞書で直そうとしたが効かない | 日本語では `alias` 方式が機能しない。先にモデルを替える |
+| 日本語ネイティブの声にしても読み違う | 声ではなくモデルの問題。4 つの声で同じ語が崩れた |
+| クローンした声が歪む | 素材の**原音**のピークが 0 dB を超えていないか測る。`loudnorm` を掛けない |
+| 検索の埋め込みが日本語で当たらない | 知識ベースの索引は `multilingual_e5_large_instruct` を明示する |
+
+同じ原稿・同じ声でモデルだけ替えた実測（書き起こしと原稿の一致率）:
+
+| モデル | 一致率 |
+|---|---:|
+| `eleven_v3` / `eleven_v3_conversational` | **100.0%** |
+| `eleven_turbo_v2_5` | 99.0% |
+| `eleven_flash_v2_5` | 98.5% |
+| `eleven_multilingual_v2` | 95.2% |
+
+会話（Agents）でも `eleven_v3_conversational` が選べる。
+`eleven_flash_v2_5` から替えても**遅延は悪化せず、1 往復の費用はむしろ下がった**（88〜100 → 59〜64 クレジット）。
+
 ## 費用の注意
 
-ここは **A（会話）の話**。B は会話ではなく TTS なので、消費は喋った文字数ぶん（1 往復 50 クレジット前後）で、
-放置しても増えない。とはいえ残高の見張り（`MIN_CREDITS`）は A と共通の門をくぐらせている。
+ここは **A と C（会話）の話**。B は会話ではなく TTS なので、消費は喋った文字数ぶん（1 往復 50 クレジット前後）で、
+放置しても増えない。とはいえ残高の見張り（`MIN_CREDITS`）は 3 構成で共通の門をくぐらせている。
+**C も会話なので、放置すれば A と同じように分単位で溶ける。**
 
 **会話は分単位でクレジットを消費する。** 2026-09-10 の実測で約 730 クレジット/分だった。
 無料プランの 10,000 クレジット/月は実質 13 分、Starter の 30,000 でも 40 分ほどしかない。

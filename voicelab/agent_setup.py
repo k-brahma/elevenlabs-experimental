@@ -86,7 +86,7 @@ class SetupResult:
         )
 
 
-def _request(client: httpx.Client, method: str, path: str, **kwargs) -> dict:
+def request_json(client: httpx.Client, method: str, path: str, **kwargs) -> dict:
     """REST を 1 回叩いて JSON を返す。失敗は本文ごと :class:`SetupError` にする。
 
     ElevenLabs は 422 の本文に「どの項目が違うか」を書いてくるので、握り潰さず見せる。
@@ -123,25 +123,44 @@ def _tool_config() -> dict:
     }
 
 
-def _agent_body(*, prompt: str, llm: str, voice_id: str, model_id: str, tool_id: str) -> dict:
-    """Agent の設定。
+def build_agent_body(
+    *,
+    name: str,
+    prompt: str,
+    llm: str,
+    voice_id: str,
+    model_id: str,
+    tool_ids: list[str],
+    prompt_extra: dict | None = None,
+) -> dict:
+    """Agent の設定を組む。**A（:data:`AGENT_NAME`）と C（``voicelab-c``）で共有する。**
+
+    共有する理由は比較の条件を揃えること。声・TTS モデル・LLM・``turn``・``client_events``・
+    ``max_duration_seconds``・``text_normalisation_type``・``enable_auth`` がひとつでもずれると、
+    測った差が「構成の差」なのか「設定の差」なのか言えなくなる。**構成ごとに変えてよいのは
+    ``name`` と ``prompt`` と ``tool_ids``、それに** ``prompt_extra`` **だけ**。
 
     ``first_message`` を空にするのは、**こちらが質問を送るまで喋らせない**ため。
     挨拶を先に喋ると、その分の秒数と最初の音までの時間が計測に混ざる。
+
+    :param tool_ids: 持たせる道具。C は道具を持たないので空にする。
+    :param prompt_extra: ``prompt`` の下に足す項目（C の ``knowledge_base`` と ``rag``）。
     """
+    prompt_config: dict = {
+        'prompt': prompt,
+        'llm': llm,
+        'temperature': 0.3,
+        'max_tokens': 300,
+        'tool_ids': tool_ids,
+    }
+    prompt_config.update(prompt_extra or {})
     return {
-        'name': AGENT_NAME,
+        'name': name,
         'conversation_config': {
             'agent': {
                 'first_message': '',
                 'language': 'ja',
-                'prompt': {
-                    'prompt': prompt,
-                    'llm': llm,
-                    'temperature': 0.3,
-                    'max_tokens': 300,
-                    'tool_ids': [tool_id],
-                },
+                'prompt': prompt_config,
             },
             'tts': {
                 'voice_id': voice_id,
@@ -162,6 +181,18 @@ def _agent_body(*, prompt: str, llm: str, voice_id: str, model_id: str, tool_id:
     }
 
 
+def _agent_body(*, prompt: str, llm: str, voice_id: str, model_id: str, tool_id: str) -> dict:
+    """A の Agent の設定。共有部分は :func:`build_agent_body` にある。"""
+    return build_agent_body(
+        name=AGENT_NAME,
+        prompt=prompt,
+        llm=llm,
+        voice_id=voice_id,
+        model_id=model_id,
+        tool_ids=[tool_id],
+    )
+
+
 def _entry_id(item: dict, *keys: str) -> str:
     for key in keys:
         value = item.get(key)
@@ -172,7 +203,7 @@ def _entry_id(item: dict, *keys: str) -> str:
 
 def find_tool(client: httpx.Client, name: str = TOOL_NAME) -> str | None:
     """名前でツールを探して id を返す（無ければ None）。"""
-    payload = _request(client, 'GET', '/convai/tools')
+    payload = request_json(client, 'GET', '/convai/tools')
     for item in payload.get('tools', []) or []:
         config = item.get('tool_config') or {}
         if config.get('name') == name or item.get('name') == name:
@@ -185,9 +216,9 @@ def ensure_tool(client: httpx.Client) -> tuple[str, bool]:
     body = {'tool_config': _tool_config()}
     existing = find_tool(client)
     if existing:
-        _request(client, 'PATCH', f'/convai/tools/{existing}', json=body)
+        request_json(client, 'PATCH', f'/convai/tools/{existing}', json=body)
         return existing, False
-    created = _request(client, 'POST', '/convai/tools', json=body)
+    created = request_json(client, 'POST', '/convai/tools', json=body)
     tool_id = _entry_id(created, 'id', 'tool_id')
     if not tool_id:
         raise SetupError(f'ツールの作成応答に id がありません: {created}')
@@ -198,7 +229,7 @@ def find_agent(client: httpx.Client, name: str = AGENT_NAME) -> str | None:
     """名前で Agent を探して id を返す（無ければ None）。一覧は cursor で辿る。"""
     params: dict[str, str | int] = {'page_size': 100}
     while True:
-        payload = _request(client, 'GET', '/convai/agents', params=params)
+        payload = request_json(client, 'GET', '/convai/agents', params=params)
         for item in payload.get('agents', []) or []:
             if item.get('name') == name:
                 return _entry_id(item, 'agent_id', 'id')
@@ -223,22 +254,26 @@ def ensure_agent(
     )
     existing = find_agent(client)
     if existing:
-        _request(client, 'PATCH', f'/convai/agents/{existing}', json=body)
+        request_json(client, 'PATCH', f'/convai/agents/{existing}', json=body)
         return existing, False
-    created = _request(client, 'POST', '/convai/agents/create', json=body)
+    created = request_json(client, 'POST', '/convai/agents/create', json=body)
     agent_id = _entry_id(created, 'agent_id', 'id')
     if not agent_id:
         raise SetupError(f'Agent の作成応答に id がありません: {created}')
     return agent_id, True
 
 
-def write_agent_id(agent_id: str, path: Path = ENV_PATH) -> bool:
-    """`.env` の `ELEVENLABS_AGENT_ID=` の行だけを書き換える（無ければ末尾に足す）。
+def write_agent_id(
+    agent_id: str, path: Path = ENV_PATH, *, key: str = 'ELEVENLABS_AGENT_ID'
+) -> bool:
+    """`.env` の `<key>=` の行だけを書き換える（無ければ末尾に足す）。
 
     行単位で差し替えるのは、**ほかの行（API キーやコメント）に触らない**ため。
     値が既に同じなら書かない。戻り値は書いたかどうか。
+
+    ``key`` を差し替えられるのは C（``ELEVENLABS_KB_AGENT_ID``）も同じ作法で書くため。
+    既定は A の鍵なので、呼び出し側の意味は変わらない。
     """
-    key = 'ELEVENLABS_AGENT_ID'
     lines = path.read_text(encoding='utf-8').splitlines() if path.exists() else []
     for index, line in enumerate(lines):
         if line.strip().startswith(f'{key}='):
